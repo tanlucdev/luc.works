@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DetailMotion from '../../components/DetailMotion.tsx';
+import MarkdownContent from '../../components/MarkdownContent.astro';
+import { getWritingBySlug, writing } from '../../data/content';
+
+export function getStaticPaths() {
+  return writing.map((article) => ({
+    params: { slug: article.slug }
+  }));
+}
+
+const article = getWritingBySlug(Astro.params.slug ?? '');
+
+if (!article) {
+  return Astro.redirect('/writing');
+}
+
+const title = `${article.title} - Tan Luc`;
+const canonical = `https://luc.works/writing/${article.slug}/`;
+const Content = article.Content;
+---
+
+<BaseLayout title={title} description={article.dek} canonical={canonical}>
+  <main class="min-h-screen bg-black text-[#E1E0CC]">
+    <section class="relative overflow-hidden px-4 py-6 sm:px-6 md:py-8">
+      <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.14]"></div>
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <nav aria-label="Article" class="flex items-center justify-between gap-4 py-3 text-xs text-gray-500 sm:text-sm">
+          <a href="/writing" class="transition-colors hover:text-primary">Back to writing</a>
+          <a href="/projects" class="transition-colors hover:text-primary">Projects</a>
+        </nav>
+
+        <h1 class="sr-only">{article.title}</h1>
+        <DetailMotion
+          eyebrow={article.category}
+          title={article.title}
+          summary={article.dek}
+          tags={article.tags}
+          titleClassName="mt-5 text-[14vw] font-medium leading-[0.9] text-[#E1E0CC] sm:text-[11vw] md:text-[8vw] lg:text-[6vw]"
+          client:load
+        />
+
+        <section class="border-t border-primary/10 py-16 sm:py-20 md:py-24">
+          <div class="grid gap-10 md:grid-cols-12 md:gap-8">
+            <div class="md:col-span-3">
+              <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Article</p>
+            </div>
+            <article class="md:col-span-9">
+              <MarkdownContent>
+                <Content />
+              </MarkdownContent>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

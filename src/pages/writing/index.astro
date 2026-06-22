@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WritingCards from '../../components/WritingCards.tsx';
+import { writing } from '../../data/content';
+
+const articleCards = writing.map(({ Content, ...article }) => article);
+---
+
+<BaseLayout title="Writing - Tan Luc" description="Writing by Tan Luc on AI workflows, product UX, and frontend architecture." canonical="https://luc.works/writing/">
+  <main class="min-h-screen bg-black text-[#E1E0CC]">
+    <section class="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 md:py-8">
+      <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.15]"></div>
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <nav aria-label="Writing" class="flex items-center justify-between gap-4 py-3 text-xs text-gray-500 sm:text-sm">
+          <a href="/" class="transition-colors hover:text-primary">luc.works</a>
+          <a href="/projects" class="transition-colors hover:text-primary">Projects</a>
+        </nav>
+
+        <div class="pt-14 md:pt-20">
+          <div class="grid gap-8 md:grid-cols-12 md:items-end">
+            <div class="md:col-span-8">
+              <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Writing</p>
+              <h1 class="mt-5 text-[18vw] font-medium leading-[0.82] text-[#E1E0CC] sm:text-[15vw] md:text-[12vw] lg:text-[10vw]">Notes</h1>
+            </div>
+            <div class="max-w-xl md:col-span-4">
+              <p class="text-sm leading-relaxed text-gray-400 sm:text-base">Short essays on product UX, AI workflow systems, and frontend architecture.</p>
+            </div>
+          </div>
+
+          <WritingCards articles={articleCards} client:visible />
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
