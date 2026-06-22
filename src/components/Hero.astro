@@ -1,0 +1,52 @@
+---
+import HeroContent from './HeroContent.tsx';
+
+const navItems = [
+  { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Work', href: '#work' },
+  { label: 'Writing', href: '#writing' },
+  { label: 'Contact', href: '#contact' }
+];
+---
+
+<section aria-labelledby="hero-title" class="h-screen bg-black p-4 md:p-6">
+  <div class="relative h-full overflow-hidden rounded-2xl md:rounded-[2rem]">
+    <video
+      class="absolute inset-0 h-full w-full object-cover"
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+    ></video>
+    <div class="noise-overlay pointer-events-none absolute inset-0 opacity-[0.7] mix-blend-overlay"></div>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60"></div>
+
+    <nav aria-label="Primary" class="absolute left-1/2 top-0 z-20 -translate-x-1/2 bg-black px-4 py-2 md:rounded-b-3xl md:px-8 rounded-b-2xl">
+      <ul class="flex items-center gap-3 sm:gap-6 md:gap-12 lg:gap-14">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="whitespace-nowrap text-[10px] transition-colors duration-300 sm:text-xs md:text-sm"
+              style="color: rgba(225, 224, 204, 0.8);"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <HeroContent client:load />
+  </div>
+</section>
+
+<style>
+  nav a:hover {
+    color: #E1E0CC !important;
+  }
+</style>

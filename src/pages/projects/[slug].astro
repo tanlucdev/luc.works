@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getProjectBySlug, projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug }
+  }));
+}
+
+const project = getProjectBySlug(Astro.params.slug ?? '');
+
+if (!project) {
+  return Astro.redirect('/#projects');
+}
+
+const title = `${project.title} - Tan Luc`;
+const canonical = `https://luc.works/projects/${project.slug}/`;
+---
+
+<BaseLayout title={title} description={project.description} canonical={canonical}>
+  <main class="min-h-screen bg-black text-[#E1E0CC]">
+    <section class="relative overflow-hidden px-4 py-6 sm:px-6 md:py-8">
+      <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.14]"></div>
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <nav aria-label="Project" class="flex items-center justify-between gap-4 py-3 text-xs text-gray-500 sm:text-sm">
+          <a href="/#projects" class="transition-colors hover:text-primary">Back to projects</a>
+          <a href="/#contact" class="transition-colors hover:text-primary">Contact</a>
+        </nav>
+
+        <div class="grid min-h-[calc(100vh-96px)] content-between gap-12 pt-14 md:pt-20">
+          <div class="grid gap-8 md:grid-cols-12 md:items-end">
+            <div class="md:col-span-8">
+              <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Project {project.number}</p>
+              <h1 class="mt-5 text-[18vw] font-medium leading-[0.82] text-[#E1E0CC] sm:text-[15vw] md:text-[12vw] lg:text-[10vw]">
+                {project.title}
+              </h1>
+            </div>
+            <div class="max-w-xl md:col-span-4">
+              <p class="text-sm leading-relaxed text-gray-400 sm:text-base">{project.summary}</p>
+              <div class="mt-8 flex flex-wrap gap-2">
+                {project.stack.map((item) => (
+                  <span class="rounded-full border border-primary/20 px-3 py-1 text-xs text-primary/80">{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-4 pb-10 md:grid-cols-3 md:pb-14">
+            <section class="rounded-[8px] bg-[#1F1F1F] p-5 sm:p-6">
+              <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Role</p>
+              <p class="mt-5 text-lg leading-snug text-[#E1E0CC]">{project.role}</p>
+            </section>
+
+            <section class="rounded-[8px] bg-[#1F1F1F] p-5 sm:p-6 md:col-span-2">
+              <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Highlights</p>
+              <ul class="mt-5 grid gap-4 sm:grid-cols-3">
+                {project.highlights.map((highlight) => (
+                  <li class="border-l border-primary/30 pl-4 text-sm leading-relaxed text-gray-400">{highlight}</li>
+                ))}
+              </ul>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

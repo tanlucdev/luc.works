@@ -1,0 +1,13 @@
+---
+import ContactMotion from './ContactMotion.tsx';
+---
+
+<section id="contact" aria-labelledby="contact-title" class="relative overflow-hidden bg-black px-4 py-20 sm:px-6 md:py-28 lg:py-32">
+  <span id="writing" class="absolute -top-20"></span>
+  <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.15]"></div>
+  <div class="relative z-10 mx-auto max-w-7xl rounded-[8px] bg-[#101010] px-5 py-16 sm:px-8 sm:py-20 md:px-12 md:py-24 lg:px-16">
+    <h2 id="contact-title" class="sr-only">Contact</h2>
+    <p class="mb-6 text-center text-[10px] uppercase tracking-[0.28em] text-primary sm:text-xs">Contact</p>
+    <ContactMotion client:visible />
+  </div>
+</section>

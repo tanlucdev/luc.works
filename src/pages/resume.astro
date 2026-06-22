@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const skills = ['React', 'TypeScript', 'Next.js', 'AI Workflow Systems', 'Product Development', 'Design Systems', 'Frontend Architecture'];
+---
+
+<BaseLayout title="Tan Luc — Resume" canonical="https://luc.works/resume/">
+  <main class="min-h-screen bg-black px-4 py-6 text-[#E1E0CC] sm:px-6 md:py-8">
+    <section class="mx-auto flex min-h-[calc(100vh-3rem)] max-w-6xl flex-col justify-between rounded-[8px] bg-[#101010] px-5 py-10 sm:px-8 md:min-h-[calc(100vh-4rem)] md:px-12 md:py-14 lg:px-16">
+      <div>
+        <a href="/" class="text-xs uppercase tracking-[0.28em] text-primary transition-colors hover:text-[#E1E0CC]">luc.works</a>
+        <div class="mt-16 grid gap-10 md:grid-cols-12 md:gap-8">
+          <div class="md:col-span-7">
+            <h1 class="text-5xl font-normal leading-[0.9] sm:text-6xl md:text-7xl lg:text-8xl">Tan Luc</h1>
+            <p class="mt-6 max-w-xl text-base leading-relaxed text-[#DEDBC8] md:text-lg">Frontend Engineer, Product Builder, and AI Workflow Developer based in Vietnam.</p>
+          </div>
+          <div class="space-y-8 md:col-span-5">
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.28em] text-primary sm:text-xs">Focus</p>
+              <p class="mt-4 text-sm leading-relaxed text-gray-400 md:text-base">I build AI-powered products, workflow systems, and thoughtful digital experiences through clean architecture, strong UX, and modern frontend engineering.</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.28em] text-primary sm:text-xs">Skills</p>
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {skills.map((skill) => <li class="rounded-full bg-[#212121] px-3 py-2 text-sm text-gray-400">{skill}</li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-16 flex flex-wrap gap-3 text-sm text-gray-400">
+        <a class="transition-colors hover:text-[#E1E0CC]" href="mailto:hello@luc.works">hello@luc.works</a>
+        <a class="transition-colors hover:text-[#E1E0CC]" href="https://github.com/tanlucdev">GitHub</a>
+        <a class="transition-colors hover:text-[#E1E0CC]" href="https://www.linkedin.com/in/tanlucdev/">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
