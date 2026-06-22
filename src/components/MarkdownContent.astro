@@ -1,0 +1,50 @@
+<div
+  data-markdown-motion
+  class="space-y-8 text-sm leading-relaxed text-gray-400 sm:text-base [&_code]:rounded [&_code]:bg-[#212121] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-primary [&_h2]:pt-4 [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:leading-tight [&_h2]:text-[#E1E0CC] [&_h2]:sm:text-3xl [&_li]:pl-2 [&_p]:max-w-3xl [&_strong]:font-normal [&_strong]:text-[#E1E0CC] [&_ul]:grid [&_ul]:gap-3 [&_ul]:pl-5 [&_ul]:marker:text-primary"
+>
+  <slot />
+</div>
+
+<script is:inline>
+  for (const root of document.querySelectorAll('[data-markdown-motion]:not([data-motion-ready])')) {
+    root.setAttribute('data-motion-ready', 'true');
+    root.classList.add('motion-ready');
+
+    const children = [...root.children];
+    children.forEach((child, index) => {
+      child.classList.add('motion-reveal');
+      child.style.transitionDelay = `${Math.min(index * 35, 280)}ms`;
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
+    );
+
+    children.forEach((child) => observer.observe(child));
+  }
+</script>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .motion-ready > .motion-reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .motion-ready > .motion-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

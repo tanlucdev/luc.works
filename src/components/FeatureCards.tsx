@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, Check, Code2, MapPinned, UsersRound, Workflow } from 'lucide-react';
 import { useRef } from 'react';
-import { projects } from '../data/projects';
+import type { Project } from '../data/projects';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -12,7 +12,13 @@ const icons = {
   code: Code2
 };
 
-export default function FeatureCards() {
+type ProjectCard = Omit<Project, 'Content'>;
+
+type FeatureCardsProps = {
+  projects: ProjectCard[];
+};
+
+export default function FeatureCards({ projects }: FeatureCardsProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 

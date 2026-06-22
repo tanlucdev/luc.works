@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FeatureCards from '../../components/FeatureCards.tsx';
+import { projects } from '../../data/projects';
+
+const projectCards = projects.map(({ Content, ...project }) => project);
+---
+
+<BaseLayout title="Projects - Tan Luc" description="Project work by Tan Luc." canonical="https://luc.works/projects/">
+  <main class="min-h-screen bg-black text-[#E1E0CC]">
+    <section class="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 md:py-8">
+      <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.15]"></div>
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <nav aria-label="Projects" class="flex items-center justify-between gap-4 py-3 text-xs text-gray-500 sm:text-sm">
+          <a href="/" class="transition-colors hover:text-primary">luc.works</a>
+          <a href="/writing" class="transition-colors hover:text-primary">Writing</a>
+        </nav>
+
+        <div class="pt-14 md:pt-20">
+          <div class="grid gap-8 md:grid-cols-12 md:items-end">
+            <div class="md:col-span-8">
+              <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Projects</p>
+              <h1 class="mt-5 text-[18vw] font-medium leading-[0.82] text-[#E1E0CC] sm:text-[15vw] md:text-[12vw] lg:text-[10vw]">Work</h1>
+            </div>
+            <div class="max-w-xl md:col-span-4">
+              <p class="text-sm leading-relaxed text-gray-400 sm:text-base">Selected product, frontend, and AI workflow work.</p>
+            </div>
+          </div>
+
+          <FeatureCards projects={projectCards} client:visible />
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
