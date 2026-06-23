@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://luc.works/sitemap.xml
+Sitemap: https://luc.works/sitemap-index.xml
