@@ -8,7 +8,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const links = [
   { label: 'GitHub', href: 'https://github.com/tanlucdev', Icon: Code2 },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/tanlucdev/', Icon: BriefcaseBusiness },
-  { label: 'Email', href: 'mailto:hello@luc.works', Icon: Mail }
+  { label: 'Email', href: 'mailto:hi@luc.works', Icon: Mail }
 ];
 
 export default function ContactMotion() {
@@ -35,7 +35,7 @@ export default function ContactMotion() {
         transition={{ delay: 0.5, duration: 0.8, ease }}
         className="mt-8 flex flex-wrap items-center justify-center gap-3"
       >
-        <a href="mailto:hello@luc.works" className="group inline-flex items-center gap-2 rounded-full bg-primary py-1.5 pl-5 pr-1.5 text-sm font-medium text-black transition-all duration-300 hover:gap-3 sm:text-base">
+        <a href="mailto:hi@luc.works" className="group inline-flex items-center gap-2 rounded-full bg-primary py-1.5 pl-5 pr-1.5 text-sm font-medium text-black transition-all duration-300 hover:gap-3 sm:text-base">
           Contact Me
           <span className="grid h-9 w-9 place-items-center rounded-full bg-black transition-transform duration-300 group-hover:scale-110 sm:h-10 sm:w-10">
             <ArrowRight aria-hidden="true" className="h-4 w-4 text-[#E1E0CC] sm:h-5 sm:w-5" strokeWidth={1.8} />
