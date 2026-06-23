@@ -1,0 +1,18 @@
+---
+import AskExperience from '../components/AskExperience.tsx';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { askKnowledge, askSuggestions } from '../data/askKnowledge';
+---
+
+<BaseLayout
+  title="Ask Luke - Tan Luc"
+  description="Ask about Tan Luc's projects, writing, engineering decisions, product decisions, and working principles."
+  canonical="https://luc.works/ask/"
+>
+  <main class="min-h-screen bg-black text-[#E1E0CC]">
+    <section class="relative min-h-screen overflow-hidden pb-6">
+      <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.15]"></div>
+      <AskExperience knowledge={askKnowledge} suggestionGroups={askSuggestions} client:load />
+    </section>
+  </main>
+</BaseLayout>

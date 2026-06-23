@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight, Mail, Search } from 'lucide-react';
 import { WordsPullUp } from './MotionText';
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -49,6 +49,13 @@ export default function HeroContent() {
             >
               Get In Touch
               <Mail aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={1.8} />
+            </a>
+            <a
+              href="/ask"
+              className="group inline-flex h-12 items-center gap-2 rounded-full border border-primary/20 px-5 text-sm font-medium text-primary/80 transition-all duration-300 hover:border-primary hover:text-[#E1E0CC] sm:h-[52px] sm:text-base"
+            >
+              Ask Portfolio
+              <Search aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" strokeWidth={1.8} />
             </a>
           </motion.div>
         </div>
