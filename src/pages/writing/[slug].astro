@@ -4,6 +4,7 @@ import DetailMotion from '../../components/DetailMotion.tsx';
 import MarkdownContent from '../../components/MarkdownContent.astro';
 import { getWritingBySlug, writing } from '../../data/content';
 import { projects } from '../../data/projects';
+import { absoluteUrl, breadcrumbSchema, personSchema } from '../../data/seo';
 
 export function getStaticPaths() {
   return writing.map((article) => ({
@@ -17,9 +18,22 @@ if (!article) {
   return Astro.redirect('/writing');
 }
 
-const title = `${article.title} - Tan Luc`;
-const canonical = `https://luc.works/writing/${article.slug}/`;
+const title = `${article.title} | luc.works`;
+const canonical = absoluteUrl(`/writing/${article.slug}/`);
 const Content = article.Content;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${canonical}#article`,
+  headline: article.title,
+  description: article.dek,
+  url: canonical,
+  author: { '@id': 'https://luc.works/#person' },
+  publisher: { '@id': 'https://luc.works/#person' },
+  mainEntityOfPage: canonical,
+  keywords: article.tags.join(', ')
+};
 
 function isDefined<T>(value: T | undefined): value is T {
   return Boolean(value);
@@ -41,7 +55,21 @@ const relatedProjects = (relatedProjectByArticle[article.slug] ?? [])
   .slice(0, 2);
 ---
 
-<BaseLayout title={title} description={article.dek} canonical={canonical}>
+<BaseLayout
+  title={title}
+  description={article.dek}
+  canonical={canonical}
+  ogType="article"
+  jsonLd={[
+    personSchema,
+    articleSchema,
+    breadcrumbSchema([
+      { name: 'Home', url: absoluteUrl('/') },
+      { name: 'Writing', url: absoluteUrl('/writing/') },
+      { name: article.title, url: canonical }
+    ])
+  ]}
+>
   <main class="min-h-screen bg-black text-[#E1E0CC]">
     <section class="relative overflow-hidden px-4 py-6 sm:px-6 md:py-8">
       <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.14]"></div>

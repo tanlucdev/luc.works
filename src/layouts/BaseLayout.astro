@@ -1,30 +1,18 @@
 ---
 import '../styles/index.css';
+import { defaultOgImage, personSchema } from '../data/seo';
 
 const {
-  title = 'Tan Luc — Frontend Engineer & Product Builder',
-  description = 'Frontend Engineer building AI-powered products, workflow systems, and thoughtful digital experiences.',
-  canonical = 'https://luc.works/'
+  title = 'Luke - Frontend Engineer in Vietnam | luc.works',
+  description = 'Luke, frontend engineer in Vietnam building AI workflow systems, product UX, and modern web experiences.',
+  canonical = 'https://luc.works/',
+  robots = 'index,follow',
+  ogType = 'website',
+  ogImage = defaultOgImage,
+  jsonLd
 } = Astro.props;
 
-const siteUrl = 'https://luc.works/';
-
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Tan Luc',
-  alternateName: 'Luke',
-  jobTitle: ['Frontend Engineer', 'Product Builder', 'AI Workflow Developer'],
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'VN'
-  },
-  url: siteUrl,
-  email: 'hi@luc.works',
-  sameAs: ['https://github.com/tanlucdev', 'https://www.linkedin.com/in/tanlucdev/'],
-  knowsAbout: ['React', 'TypeScript', 'Next.js', 'AI Workflow Systems', 'Product Development', 'Design Systems', 'Frontend Architecture'],
-  description
-};
+const schemaItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [personSchema];
 ---
 
 <!doctype html>
@@ -33,24 +21,24 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#000000" />
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="Tan Luc" />
-    <meta property="og:image" content={`${siteUrl}favicon.svg`} />
+    <meta property="og:site_name" content="luc.works" />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteUrl}favicon.svg`} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {schemaItems.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
     <title>{title}</title>
   </head>
   <body>

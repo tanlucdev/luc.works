@@ -1,18 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { absoluteUrl, breadcrumbSchema, personSchema, profilePageSchema } from '../data/seo';
 
 const skills = ['React', 'TypeScript', 'Next.js', 'AI Workflow Systems', 'Product Development', 'Design Systems', 'Frontend Architecture'];
+const canonical = absoluteUrl('/resume/');
+const description = 'Resume for Luke, frontend engineer in Vietnam focused on React, TypeScript, AI workflow systems, product UX, and design systems.';
 ---
 
-<BaseLayout title="Tan Luc — Resume" canonical="https://luc.works/resume/">
+<BaseLayout
+  title="Luke - Resume | luc.works"
+  description={description}
+  canonical={canonical}
+  jsonLd={[profilePageSchema(canonical), personSchema, breadcrumbSchema([{ name: 'Home', url: absoluteUrl('/') }, { name: 'Resume', url: canonical }])]}
+>
   <main class="min-h-screen bg-black px-4 py-6 text-[#E1E0CC] sm:px-6 md:py-8">
     <section class="mx-auto flex min-h-[calc(100vh-3rem)] max-w-6xl flex-col justify-between rounded-[8px] bg-[#101010] px-5 py-10 sm:px-8 md:min-h-[calc(100vh-4rem)] md:px-12 md:py-14 lg:px-16">
       <div>
         <a href="/" class="text-xs uppercase tracking-[0.28em] text-primary transition-colors hover:text-[#E1E0CC]">luc.works</a>
         <div class="mt-16 grid gap-10 md:grid-cols-12 md:gap-8">
           <div class="md:col-span-7">
-            <h1 class="text-5xl font-normal leading-[0.9] sm:text-6xl md:text-7xl lg:text-8xl">Tan Luc</h1>
-            <p class="mt-6 max-w-xl text-base leading-relaxed text-[#DEDBC8] md:text-lg">Frontend Engineer, Product Builder, and AI Workflow Developer based in Vietnam.</p>
+            <h1 class="text-5xl font-normal leading-[0.9] sm:text-6xl md:text-7xl lg:text-8xl">Luke</h1>
+            <p class="mt-6 max-w-xl text-base leading-relaxed text-[#DEDBC8] md:text-lg">Frontend Engineer, Product Builder, and AI Workflow Developer based in Vietnam. luc.works is the home base for my projects, writing, and contact links.</p>
           </div>
           <div class="space-y-8 md:col-span-5">
             <div>
@@ -30,8 +38,6 @@ const skills = ['React', 'TypeScript', 'Next.js', 'AI Workflow Systems', 'Produc
       </div>
       <div class="mt-16 flex flex-wrap gap-3 text-sm text-gray-400">
         <a class="transition-colors hover:text-[#E1E0CC]" href="mailto:hi@luc.works">hi@luc.works</a>
-        <a class="transition-colors hover:text-[#E1E0CC]" href="https://github.com/tanlucdev">GitHub</a>
-        <a class="transition-colors hover:text-[#E1E0CC]" href="https://www.linkedin.com/in/tanlucdev/">LinkedIn</a>
       </div>
     </section>
   </main>

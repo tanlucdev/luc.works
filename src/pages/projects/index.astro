@@ -2,11 +2,19 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FeatureCards from '../../components/FeatureCards.tsx';
 import { projects } from '../../data/projects';
+import { absoluteUrl, breadcrumbSchema } from '../../data/seo';
 
 const projectCards = projects.map(({ Content, ...project }) => project);
+const canonical = absoluteUrl('/projects/');
+const description = 'Project work by Luke on AI workflow systems, product UX, frontend architecture, map discovery products, and collaborative productivity tools.';
 ---
 
-<BaseLayout title="Projects - Tan Luc" description="Project work by Tan Luc." canonical="https://luc.works/projects/">
+<BaseLayout
+  title="Projects - AI Workflow and Frontend Case Studies | luc.works"
+  description={description}
+  canonical={canonical}
+  jsonLd={breadcrumbSchema([{ name: 'Home', url: absoluteUrl('/') }, { name: 'Projects', url: canonical }])}
+>
   <main class="min-h-screen bg-black text-[#E1E0CC]">
     <section class="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 md:py-8">
       <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.15]"></div>

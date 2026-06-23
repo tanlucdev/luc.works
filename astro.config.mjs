@@ -7,5 +7,7 @@ export default defineConfig({
   devToolbar: {
     enabled: false
   },
-  integrations: [react(), sitemap()]
+  integrations: [react(), sitemap({
+    filter: (page) => page !== 'https://luc.works/ask/'
+  })]
 });

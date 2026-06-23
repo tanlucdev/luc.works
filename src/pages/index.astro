@@ -5,9 +5,10 @@ import About from '../components/About.astro';
 import Features from '../components/Features.astro';
 import Philosophy from '../components/Philosophy.astro';
 import Contact from '../components/Contact.astro';
+import { profilePageSchema, personSchema } from '../data/seo';
 ---
 
-<BaseLayout>
+<BaseLayout jsonLd={[profilePageSchema(), personSchema]}>
   <main>
     <Hero />
     <About />

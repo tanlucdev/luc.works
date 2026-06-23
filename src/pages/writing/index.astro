@@ -2,11 +2,19 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WritingCards from '../../components/WritingCards.tsx';
 import { writing } from '../../data/content';
+import { absoluteUrl, breadcrumbSchema } from '../../data/seo';
 
 const articleCards = writing.map(({ Content, ...article }) => article);
+const canonical = absoluteUrl('/writing/');
+const description = 'Writing by Luke on debuggable AI workflows, product UX, node-based editors, creative AI tools, and frontend architecture.';
 ---
 
-<BaseLayout title="Writing - Tan Luc" description="Writing by Tan Luc on AI workflows, product UX, and frontend architecture." canonical="https://luc.works/writing/">
+<BaseLayout
+  title="Writing on AI Workflows and Product UX | luc.works"
+  description={description}
+  canonical={canonical}
+  jsonLd={breadcrumbSchema([{ name: 'Home', url: absoluteUrl('/') }, { name: 'Writing', url: canonical }])}
+>
   <main class="min-h-screen bg-black text-[#E1E0CC]">
     <section class="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 md:py-8">
       <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.15]"></div>
