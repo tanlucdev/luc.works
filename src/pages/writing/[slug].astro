@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import DetailMotion from '../../components/DetailMotion.tsx';
 import MarkdownContent from '../../components/MarkdownContent.astro';
 import { getWritingBySlug, writing } from '../../data/content';
+import { projects } from '../../data/projects';
 
 export function getStaticPaths() {
   return writing.map((article) => ({
@@ -19,6 +20,25 @@ if (!article) {
 const title = `${article.title} - Tan Luc`;
 const canonical = `https://luc.works/writing/${article.slug}/`;
 const Content = article.Content;
+
+function isDefined<T>(value: T | undefined): value is T {
+  return Boolean(value);
+}
+
+const articleIndex = writing.findIndex((item) => item.slug === article.slug);
+const previousArticle = articleIndex > 0 ? writing[articleIndex - 1] : undefined;
+const nextArticle = articleIndex < writing.length - 1 ? writing[articleIndex + 1] : undefined;
+
+const relatedProjectByArticle: Record<string, string[]> = {
+  'designing-ai-workflows-people-can-debug': ['cinematic-ai', 'study-stream'],
+  'building-node-based-editors-without-hiding-system-state': ['cinematic-ai', 'engineering-focus'],
+  'what-creative-ai-tools-need-besides-generation': ['cinematic-ai', 'cafe-maps']
+};
+
+const relatedProjects = (relatedProjectByArticle[article.slug] ?? [])
+  .map((slug) => projects.find((project) => project.slug === slug))
+  .filter(isDefined)
+  .slice(0, 2);
 ---
 
 <BaseLayout title={title} description={article.dek} canonical={canonical}>
@@ -26,7 +46,7 @@ const Content = article.Content;
     <section class="relative overflow-hidden px-4 py-6 sm:px-6 md:py-8">
       <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.14]"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <nav aria-label="Article" class="flex items-center justify-between gap-4 py-3 text-xs text-gray-500 sm:text-sm">
+        <nav aria-label="Article" class="site-nav flex items-center justify-between gap-4 py-3 text-xs text-gray-500 sm:text-sm">
           <a href="/writing" class="transition-colors hover:text-primary">Back to writing</a>
           <a href="/projects" class="transition-colors hover:text-primary">Projects</a>
         </nav>
@@ -37,19 +57,46 @@ const Content = article.Content;
           title={article.title}
           summary={article.dek}
           tags={article.tags}
-          titleClassName="mt-5 text-[14vw] font-medium leading-[0.9] text-[#E1E0CC] sm:text-[11vw] md:text-[8vw] lg:text-[6vw]"
+          titleClassName="mt-5 text-[12vw] font-medium leading-[0.95] text-[#E1E0CC] sm:text-[9vw] md:text-[7vw] lg:text-[5.5vw]"
           client:load
         />
 
-        <section class="border-t border-primary/10 py-16 sm:py-20 md:py-24">
+        <section class="border-t border-primary/10 py-12 sm:py-20 md:py-24">
           <div class="grid gap-10 md:grid-cols-12 md:gap-8">
             <div class="md:col-span-3">
-              <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Article</p>
+              <div class="md:sticky md:top-8">
+                <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Article</p>
+                <a href="/writing" class="mt-5 hidden text-sm text-gray-500 transition-colors hover:text-primary md:block">All notes</a>
+              </div>
             </div>
-            <article class="md:col-span-9">
+            <article class="content-rail md:col-span-9">
               <MarkdownContent>
                 <Content />
               </MarkdownContent>
+              <div class="mt-12 border-t border-primary/10 pt-8 sm:mt-14 sm:pt-10">
+                <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Continue</p>
+                <div class="mt-5 grid gap-2 sm:grid-cols-2">
+                  {previousArticle && (
+                    <a href={`/writing/${previousArticle.slug}`} class="rounded-[8px] bg-[#101010] p-4 transition-colors hover:bg-[#171717] sm:p-5">
+                      <p class="text-sm text-gray-500">Previous note</p>
+                      <h2 class="mt-3 text-lg font-normal leading-tight text-[#E1E0CC]">{previousArticle.title}</h2>
+                    </a>
+                  )}
+                  {nextArticle && (
+                    <a href={`/writing/${nextArticle.slug}`} class="rounded-[8px] bg-[#101010] p-4 transition-colors hover:bg-[#171717] sm:p-5">
+                      <p class="text-sm text-gray-500">Next note</p>
+                      <h2 class="mt-3 text-lg font-normal leading-tight text-[#E1E0CC]">{nextArticle.title}</h2>
+                    </a>
+                  )}
+                  {relatedProjects.map((project) => (
+                    <a href={`/projects/${project.slug}`} class="rounded-[8px] bg-[#101010] p-4 transition-colors hover:bg-[#171717] sm:p-5">
+                      <p class="text-sm text-primary/70">Related project</p>
+                      <h2 class="mt-3 text-lg font-normal leading-tight text-[#E1E0CC]">{project.title}</h2>
+                      <p class="mt-3 text-sm leading-relaxed text-gray-500">{project.description}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
             </article>
           </div>
         </section>

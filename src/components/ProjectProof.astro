@@ -1,0 +1,110 @@
+---
+import type { Project } from '../data/projects';
+
+type ProofNode = {
+  label: string;
+  meta: string;
+  status: string;
+  x: number;
+  y: number;
+};
+
+type ProofItem = {
+  title: string;
+  caption: string;
+  nodes: ProofNode[];
+  side: string[];
+};
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+
+const proofBySlug: Record<string, ProofItem> = {
+  'cinematic-ai': {
+    title: 'Workflow surface',
+    caption: 'A compact view of the core product promise: model, prompt, input, transform, and review stay visible as one repeatable pipeline.',
+    nodes: [
+      { label: 'Input', meta: 'brief + references', status: 'ready', x: 24, y: 26 },
+      { label: 'Prompt', meta: 'creative direction', status: 'running', x: 42, y: 55 },
+      { label: 'Model', meta: 'generation step', status: 'queued', x: 58, y: 22 },
+      { label: 'Review', meta: 'inspect output', status: 'complete', x: 74, y: 58 }
+    ],
+    side: ['Visible execution state', 'Reusable node patterns', 'Debuggable creative flow']
+  },
+  'cafe-maps': {
+    title: 'Map/list decision loop',
+    caption: 'Cafe discovery becomes faster when spatial context, curated tags, and place details stay coordinated on the same screen.',
+    nodes: [
+      { label: 'Area', meta: 'nearby search', status: 'map', x: 24, y: 58 },
+      { label: 'Mood', meta: 'quiet / work', status: 'filter', x: 42, y: 27 },
+      { label: 'Cafe', meta: 'selected pin', status: 'active', x: 58, y: 58 },
+      { label: 'Detail', meta: 'decide fast', status: 'open', x: 74, y: 27 }
+    ],
+    side: ['Map-first browsing', 'Curated context tags', 'Mobile place detail']
+  },
+  'study-stream': {
+    title: 'Session state',
+    caption: 'The useful realtime story is the room state: people join, signal readiness, focus, break, and complete without adding noise.',
+    nodes: [
+      { label: 'Lobby', meta: 'join room', status: 'open', x: 24, y: 27 },
+      { label: 'Ready', meta: 'group signal', status: 'synced', x: 42, y: 58 },
+      { label: 'Focus', meta: 'timer running', status: 'live', x: 58, y: 27 },
+      { label: 'Break', meta: 'quiet reset', status: 'next', x: 74, y: 58 }
+    ],
+    side: ['Clear room lifecycle', 'Low-noise presence', 'Repeatable focus rhythm']
+  },
+  'engineering-focus': {
+    title: 'Frontend boundaries',
+    caption: 'This page works best as principles made concrete: static Astro shells, focused React islands, markdown content, and one visual system.',
+    nodes: [
+      { label: 'Astro', meta: 'page shell', status: 'static', x: 24, y: 27 },
+      { label: 'Content', meta: 'markdown data', status: 'source', x: 42, y: 58 },
+      { label: 'React', meta: 'motion islands', status: 'client', x: 58, y: 27 },
+      { label: 'Tailwind', meta: 'design tokens', status: 'system', x: 74, y: 58 }
+    ],
+    side: ['Small component surface', 'Evidence-led claims', 'Consistent design rules']
+  }
+};
+
+const proof = proofBySlug[project.slug];
+---
+
+{
+  proof && (
+    <div class="mb-12 overflow-hidden rounded-[8px] bg-[#101010] ring-1 ring-primary/10 sm:mb-14">
+      <div class="grid gap-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.6fr)]">
+        <div class="relative min-h-[320px] overflow-hidden bg-[#171717] p-5 sm:min-h-[380px] sm:p-6">
+          <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.08]"></div>
+          <svg class="absolute inset-0 h-full w-full" viewBox="0 0 100 80" role="img" aria-label={`${project.title} ${proof.title}`}>
+            <path class="project-proof-path" d={`M ${proof.nodes[0].x} ${proof.nodes[0].y} C 28 16, 30 18, ${proof.nodes[1].x} ${proof.nodes[1].y} S 55 62, ${proof.nodes[2].x} ${proof.nodes[2].y} S 75 22, ${proof.nodes[3].x} ${proof.nodes[3].y}`} fill="none" stroke="#c5ff41" stroke-opacity="0.35" stroke-width="0.35" />
+          </svg>
+          {proof.nodes.map((node) => (
+            <div class="absolute w-[112px] rounded-[8px] border border-primary/10 bg-black/70 p-3 shadow-2xl shadow-black/40 backdrop-blur sm:w-[168px] sm:p-4" style={`left: ${node.x}%; top: ${node.y}%; transform: translate(-50%, -50%);`}>
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm leading-none text-[#E1E0CC] sm:text-base">{node.label}</p>
+                <span class="h-2 w-2 rounded-full bg-primary shadow-[0_0_18px_rgba(197,255,65,0.55)]"></span>
+              </div>
+              <p class="mt-3 text-[11px] leading-snug text-gray-500 sm:text-xs">{node.meta}</p>
+              <p class="mt-4 text-[10px] uppercase tracking-[0.2em] text-primary/70">{node.status}</p>
+            </div>
+          ))}
+        </div>
+        <div class="flex flex-col justify-between gap-8 p-5 sm:p-6">
+          <div>
+            <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Artifact</p>
+            <h2 class="mt-5 text-2xl font-normal leading-none text-[#E1E0CC] sm:text-3xl">{proof.title}</h2>
+            <p class="mt-5 text-sm leading-relaxed text-gray-400 sm:text-base">{proof.caption}</p>
+          </div>
+          <ul class="grid gap-3">
+            {proof.side.map((item) => (
+              <li class="border-l border-primary/30 pl-4 text-sm leading-relaxed text-gray-400">{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
+}

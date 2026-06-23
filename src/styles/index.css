@@ -32,6 +32,32 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+.site-nav {
+  min-height: 44px;
+}
+
+.site-nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.content-rail {
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.project-proof-path {
+  stroke-dasharray: 8 10;
+  animation: proof-flow 4.8s linear infinite;
+}
+
+@keyframes proof-flow {
+  to {
+    stroke-dashoffset: -72;
+  }
+}
+
 .noise-overlay {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   background-repeat: repeat;
@@ -52,5 +78,9 @@ a {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .project-proof-path {
+    animation: none !important;
   }
 }
