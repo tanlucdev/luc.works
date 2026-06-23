@@ -11,7 +11,7 @@ export default function HeroContent() {
         <div className="md:col-span-8">
           <WordsPullUp
             id="hero-title"
-            text="Tan Luc"
+            text="luc.works"
             showAsterisk
             className="text-[26vw] font-medium leading-[0.85] tracking-[-0.07em] text-[#E1E0CC] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw]"
           />
@@ -23,7 +23,7 @@ export default function HeroContent() {
             transition={{ delay: 0.5, duration: 0.9, ease }}
             className="text-xs leading-[1.2] text-primary/70 sm:text-sm md:text-base"
           >
-            Building AI-powered products, workflow systems, and thoughtful digital experiences.
+            Luke, frontend engineer in Vietnam building AI workflow systems, product UX, and modern web experiences.
             <br />
             <br />
             Frontend engineer focused on turning complex ideas into intuitive tools through clean architecture, modern web technologies, and design-driven thinking.

@@ -2,36 +2,38 @@
 slug: study-stream
 title: Study Stream
 number: "03"
-description: 'A collaborative productivity platform designed to help students stay focused.'
+description: 'A full-stack productivity web app inspired by Pomodoro, with real-time chat, course spaces, and personal learning analytics.'
 icon: users
 items:
-  - Collaborative focus sessions
-  - Real-time interaction
-  - Productivity tools
-  - Community driven
-summary: 'A focused study environment that combines shared sessions, lightweight accountability, and productivity tools. The product is shaped around reducing friction before a session starts and keeping the room calm once people are working.'
-role: 'Frontend systems, realtime UX, product design'
+  - Pomodoro focus sessions
+  - Real-time chat
+  - Course spaces
+  - Learning analytics
+summary: 'A full-stack productivity web app inspired by the Pomodoro method, combining shared focus sessions, real-time chat, course spaces, and personal learning analytics.'
+role: 'Full-stack systems, realtime UX, product design'
 stack:
   - React
-  - TypeScript
-  - Realtime events
+  - MongoDB
+  - Agora API
+  - Real-time chat
   - Session state
-  - Productivity UX
+  - Learning analytics
 highlights:
-  - Shared focus rooms with clear session state
-  - Realtime participant feedback
-  - Simple productivity patterns designed for repeat use
+  - Pomodoro-inspired focus sessions with clear session state
+  - Real-time chat and course spaces for study groups
+  - Personal learning analytics for repeat study habits
 source_evidence:
+  - legacy project archive
   - src/data/projects.ts
   - PROJECT_PAGE_AUDIT.md
   - PROJECT_DISCOVERY_REPORT.md
   - PORTFOLIO_EXTENSION_PLAN.md
-status: content draft based on repository evidence
+status: migrated from legacy project notes and repository evidence
 ---
 
 ## Overview
 
-Study Stream is described as a collaborative productivity platform for focus sessions and lightweight accountability. The current metadata presents it as a calm study environment with shared sessions, realtime participant feedback, and simple productivity patterns designed for repeat use.
+Study Stream is a full-stack productivity web app inspired by the Pomodoro method. Legacy project notes describe real-time chat, course spaces, and personal learning analytics around a focused study experience.
 
 The audit identifies Study Stream as a good UX systems story because it can explain realtime state, session lifecycle, accountability, and the tension between social presence and distraction.
 
@@ -41,7 +43,7 @@ Students often need structure and accountability when studying, but collaboratio
 
 ## Context
 
-The portfolio repository documents Study Stream through project metadata only. It does not include implementation source, screenshots, backend details, or live collaboration evidence.
+The current luc.works repository does not include the Study Stream implementation source, but legacy project notes document it as a full-stack productivity app with real-time chat, course spaces, MongoDB, Agora API, and personal learning analytics.
 
 Current repository findings point to a product direction around shared focus rooms, participant state, realtime feedback, session lifecycle, and productivity UX.
 
@@ -62,7 +64,7 @@ Current repository findings point to a product direction around shared focus roo
 
 ## Solution
 
-Study Stream is positioned as a focused room-based experience. Users join shared sessions, see clear session state, receive lightweight participant feedback, and use productivity patterns that support repeated study sessions.
+Study Stream is positioned as a focused room-based experience. Users join shared sessions, see clear session state, communicate through real-time chat, organize work through course spaces, and use personal analytics to support repeated study sessions.
 
 The current project highlights emphasize shared focus rooms, realtime participant feedback, and simple productivity patterns.
 
@@ -72,17 +74,20 @@ Available repository evidence points to a conceptual architecture built around:
 
 - Focus rooms as the main collaboration container.
 - Participant presence and status state.
-- Realtime events for room updates and feedback.
+- Real-time chat and room feedback, documented with Agora API in legacy project notes.
 - Session state for starting, pausing, completing, or tracking focus periods.
-- A frontend UI that communicates state without overstimulation.
+- MongoDB-backed data for course spaces, sessions, and learning activity.
+- A UI that communicates state without overstimulation.
 
-No implementation source is present in this repository, so exact realtime provider, event schema, persistence model, authentication model, and backend architecture are not documented here.
+No implementation source is present in this repository, so exact event schema, persistence model, authentication model, and backend architecture are not documented here.
 
 ## Technical Decisions
 
-- Use React and TypeScript, based on project metadata.
+- Use React for the product surface.
+- Use MongoDB for application data documented in legacy project notes.
+- Use Agora API for real-time communication features.
 - Model sessions as explicit state so users can tell what is happening in the room.
-- Use realtime events to keep participant feedback current.
+- Use real-time chat to keep participants connected without turning the product into a social feed.
 - Keep UI feedback lightweight so state is visible without becoming distracting.
 - Treat room lifecycle as a core product system rather than a minor interaction.
 
@@ -111,9 +116,9 @@ No implementation source is present in this repository, so exact realtime provid
 
 ## Results
 
-Study Stream appears as the third featured project in the current portfolio, with a generated detail route, stack tags, role description, and highlights.
+Study Stream appears as the third featured project in the current portfolio, with a generated detail route, stack tags, role description, and highlights. The legacy project archive adds stronger evidence for real-time chat, course spaces, personal learning analytics, MongoDB, and Agora API.
 
-No repository evidence was found for production usage, student outcomes, retention, screenshots, or source links. Results should remain limited to documented project framing unless more evidence is added.
+No repository evidence was found for production usage, student outcomes, retention, or source links. Results should remain limited to documented project framing unless more evidence is added.
 
 ## Lessons Learned
 

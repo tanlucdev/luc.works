@@ -41,13 +41,13 @@ export const askSuggestions: AskSuggestionGroup[] = [
 export const askKnowledge: AskKnowledgeItem[] = [
   {
     id: 'profile-luke',
-    title: 'Tan Luc profile',
-    summary: 'Tan Luc, also represented as Luke, is a frontend engineer, product builder, and AI workflow developer based in Vietnam.',
-    body: 'The portfolio presents Tan Luc as a frontend engineer, product builder, and AI workflow developer based in Vietnam. His work focuses on AI-powered products, workflow systems, thoughtful digital experiences, clean architecture, modern frontend engineering, and design-driven product thinking. Public contact links include hi@luc.works, GitHub, and LinkedIn.',
+    title: 'Luke profile',
+    summary: 'Luke is a frontend engineer, product builder, and AI workflow developer based in Vietnam.',
+    body: 'The portfolio presents Luke as a frontend engineer, product builder, and AI workflow developer based in Vietnam. His work focuses on AI-powered products, workflow systems, thoughtful digital experiences, clean architecture, modern frontend engineering, and design-driven product thinking. Public contact links include hi@luc.works, GitHub, and LinkedIn.',
     url: '/resume/',
     sourceType: 'profile',
     topics: ['identity', 'career', 'contact', 'skills', 'frontend', 'product', 'ai workflows'],
-    entities: ['Luke', 'Tan Luc', 'portfolio'],
+    entities: ['Luke', 'luc.works', 'portfolio'],
     confidence: 'high'
   },
   {

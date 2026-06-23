@@ -15,7 +15,7 @@ status: content draft based on repository evidence
 
 ## Overview
 
-This portfolio presents Tan Luc as a frontend engineer, product builder, and AI workflow developer focused on AI-powered products, workflow systems, and thoughtful digital experiences.
+This portfolio presents Luke as a frontend engineer, product builder, and AI workflow developer focused on AI-powered products, workflow systems, and thoughtful digital experiences.
 
 The repository consistently frames the work around a design-first mindset, clean architecture, modern web technologies, and products that help people focus, create, and work better.
 

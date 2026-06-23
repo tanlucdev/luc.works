@@ -1,13 +1,11 @@
 import { motion, useInView } from 'framer-motion';
-import { ArrowRight, BriefcaseBusiness, Code2, FileText, Mail } from 'lucide-react';
+import { ArrowRight, FileText, Mail } from 'lucide-react';
 import { useRef } from 'react';
 import { WordsPullUpMultiStyle } from './MotionText';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const links = [
-  { label: 'GitHub', href: 'https://github.com/tanlucdev', Icon: Code2 },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/tanlucdev/', Icon: BriefcaseBusiness },
   { label: 'Email', href: 'mailto:hi@luc.works', Icon: Mail }
 ];
 

@@ -2,36 +2,39 @@
 slug: cafe-maps
 title: CafeMaps
 number: "02"
-description: 'A location discovery platform helping people find great cafes through curated experiences.'
+description: 'A full-stack cafe discovery platform for Ho Chi Minh City with mood-based search, geospatial recommendations, editorial content, and an internal CMS.'
 icon: map
 items:
   - Location discovery
-  - Curated cafes
-  - Maps integration
-  - Modern user experience
-summary: 'A discovery product for finding cafes by mood, location, and real visiting context. The experience centers around quick scanning, trustworthy curation, and map-first navigation.'
-role: 'Frontend engineering, product UX, mapping experience'
+  - Mood-based search
+  - Geospatial recommendations
+  - Internal CMS
+summary: 'A full-stack discovery product for finding cafes in Ho Chi Minh City by mood, location, and real visiting context. The experience centers around curated editorial content, geospatial recommendations, and map-first navigation.'
+role: 'Full-stack engineering, product UX, mapping experience'
 stack:
   - Next.js
+  - React
   - TypeScript
-  - Maps API
+  - Google Maps API
+  - PostgreSQL
+  - Prisma
   - Geospatial UI
-  - Responsive design
 highlights:
-  - Curated lists paired with map exploration
-  - Mobile-first browsing flow
-  - Place detail structure for fast decisions
+  - Mood-based cafe search paired with map exploration
+  - Editorial content and place details managed through a CMS
+  - Geospatial recommendations for Ho Chi Minh City discovery
 source_evidence:
+  - legacy project archive
   - src/data/projects.ts
   - PROJECT_PAGE_AUDIT.md
   - PROJECT_DISCOVERY_REPORT.md
   - PORTFOLIO_EXTENSION_PLAN.md
-status: content draft based on repository evidence
+status: migrated from legacy project notes and repository evidence
 ---
 
 ## Overview
 
-CafeMaps is described as a location discovery product for finding cafes through curated, map-first browsing. The current project metadata emphasizes mood, location, visiting context, quick scanning, trustworthy curation, and mobile navigation.
+CafeMaps is a full-stack location discovery product for finding cafes in Ho Chi Minh City through curated, map-first browsing. Legacy project notes describe mood-based search, geospatial recommendations, editorial content, and an internal CMS.
 
 The discovery reports identify CafeMaps as the strongest product UX story among the featured projects because the user problem is familiar and the product decisions can be explained through discovery, trust, and map/list coordination.
 
@@ -41,7 +44,7 @@ Raw search results can make cafe selection slow and noisy. People often need a f
 
 ## Context
 
-The portfolio repository does not include a CafeMaps implementation, screenshots, data schema, or live link. Available evidence comes from project metadata and the audit documents.
+The current luc.works repository does not include the CafeMaps implementation source, but legacy project notes document it as a full-stack cafe discovery platform with a live project page, screenshots, Google Maps, PostgreSQL, Prisma, and CMS-oriented functionality.
 
 The current page describes the project at a summary level: curated lists, map exploration, mobile-first browsing, and place details for fast decisions. The audit recommends deepening the content around curation, location data, map/list interaction, and mobile constraints.
 
@@ -62,7 +65,7 @@ The current page describes the project at a summary level: curated lists, map ex
 
 ## Solution
 
-CafeMaps centers the experience around map-first navigation and curated cafe lists. The product direction favors a short path from exploration to decision: browse an area, scan relevant options, inspect a place, then decide quickly.
+CafeMaps centers the experience around map-first navigation, curated cafe lists, and mood-based search. The product direction favors a short path from exploration to decision: browse an area, scan relevant options, inspect editorial place details, then decide quickly.
 
 The current project highlights describe curated lists paired with map exploration, a mobile-first browsing flow, and a place detail structure for fast decisions.
 
@@ -70,20 +73,21 @@ The current project highlights describe curated lists paired with map exploratio
 
 Available repository evidence points to a conceptual product architecture built around:
 
-- A map view backed by a Maps API.
-- Curated place data organized around cafe discovery.
+- A map view backed by Google Maps.
+- Curated place data organized through editorial content and CMS workflows.
 - A coordinated map and list browsing experience.
 - Place detail content structured for quick scanning.
-- Responsive layouts for mobile and desktop use.
+- PostgreSQL and Prisma for structured cafe data.
 
-No implementation source is present for CafeMaps in this repository, so exact API provider configuration, data storage, geocoding strategy, filtering implementation, and deployment details are not documented here.
+No implementation source is present for CafeMaps in this repository, so exact API provider configuration, geocoding strategy, filtering implementation, and deployment details are not documented here.
 
 ## Technical Decisions
 
-- Use Next.js and TypeScript, based on the stack listed in `src/data/projects.ts`.
-- Use a Maps API because location is central to the discovery workflow.
+- Use Next.js, React, and TypeScript for the product surface.
+- Use Google Maps because location is central to the discovery workflow.
+- Use PostgreSQL and Prisma for structured place data.
+- Support editorial content and internal CMS workflows so curation can be managed intentionally.
 - Design map and list state as a coordinated experience rather than isolated views.
-- Treat responsive design as a core requirement because cafe decisions often happen on mobile.
 - Shape place details around fast scanning instead of long-form content.
 
 ## Product Decisions
@@ -111,9 +115,9 @@ No implementation source is present for CafeMaps in this repository, so exact AP
 
 ## Results
 
-CafeMaps appears as the second featured project in the current portfolio, with a generated detail route, stack tags, role description, and three highlights.
+CafeMaps appears as the second featured project in the current portfolio, with a generated detail route, stack tags, role description, and three highlights. The legacy project archive adds stronger evidence that the project is a full-stack cafe discovery platform for Ho Chi Minh City.
 
-No repository evidence was found for user metrics, active deployment, screenshots, source links, or data coverage. The current result should be described as portfolio-documented product work unless additional evidence is added.
+No repository evidence was found for user metrics, source links, or data coverage. Results should stay focused on documented product and engineering work unless additional outcome evidence is added.
 
 ## Lessons Learned
 
