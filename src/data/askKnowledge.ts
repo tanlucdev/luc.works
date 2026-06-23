@@ -21,6 +21,10 @@ export type AskSuggestionGroup = {
 
 export const askSuggestions: AskSuggestionGroup[] = [
   {
+    label: 'Basic info',
+    questions: ['How can I contact Luke quickly?', 'What is Luke\'s GitHub?', 'What is Luke\'s LinkedIn?']
+  },
+  {
     label: 'Projects',
     questions: ['Which project best shows Luke\'s AI workflow thinking?', 'What did Luke build in CafeMaps?', 'How is Study Stream different from a normal productivity app?']
   },
@@ -43,11 +47,11 @@ export const askKnowledge: AskKnowledgeItem[] = [
     id: 'profile-luke',
     title: 'Luke profile',
     summary: 'Luke is a frontend engineer, product builder, and AI workflow developer based in Vietnam.',
-    body: 'The portfolio presents Luke as a frontend engineer, product builder, and AI workflow developer based in Vietnam. His work focuses on AI-powered products, workflow systems, thoughtful digital experiences, clean architecture, modern frontend engineering, and design-driven product thinking. Public contact links include hi@luc.works, GitHub, and LinkedIn.',
+    body: 'The portfolio presents Luke as a frontend engineer, product builder, and AI workflow developer based in Vietnam. His work focuses on AI-powered products, workflow systems, thoughtful digital experiences, clean architecture, modern frontend engineering, and design-driven product thinking. Public contact details include hi@luc.works, phone 0878272222, GitHub https://github.com/tanlucdev, and LinkedIn https://www.linkedin.com/in/tanlucdev/.',
     url: '/resume/',
     sourceType: 'profile',
-    topics: ['identity', 'career', 'contact', 'skills', 'frontend', 'product', 'ai workflows'],
-    entities: ['Luke', 'luc.works', 'portfolio'],
+    topics: ['identity', 'career', 'contact', 'email', 'phone', 'github', 'linkedin', 'skills', 'frontend', 'product', 'ai workflows'],
+    entities: ['Luke', 'luc.works', 'portfolio', 'tanlucdev'],
     confidence: 'high'
   },
   {

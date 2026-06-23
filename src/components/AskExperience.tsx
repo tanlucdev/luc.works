@@ -49,7 +49,7 @@ const unsupportedPatterns = [
   'production'
 ];
 
-const allowedScope = ['project', 'writing', 'engineering', 'product', 'principle', 'philosophy', 'work', 'portfolio', 'frontend', 'ai', 'workflow', 'design', 'cafe', 'study', 'cinematic', 'node', 'react', 'typescript', 'astro'];
+const allowedScope = ['project', 'writing', 'engineering', 'product', 'principle', 'philosophy', 'work', 'portfolio', 'frontend', 'ai', 'workflow', 'design', 'cafe', 'study', 'cinematic', 'node', 'react', 'typescript', 'astro', 'contact', 'email', 'phone', 'github', 'linkedin'];
 
 function tokenize(value: string) {
   return value
@@ -74,7 +74,7 @@ function scoreItem(question: string, item: AskKnowledgeItem) {
     if (question.toLowerCase().includes(entity.toLowerCase())) score += 12;
   }
 
-  if (/who|contact|skills|kind of work|products/.test(question.toLowerCase()) && item.id === 'profile-luke') score += 7;
+  if (/who|contact|email|phone|github|linkedin|social|liên hệ|số điện thoại|skills|kind of work|products/.test(question.toLowerCase()) && item.id === 'profile-luke') score += 7;
   if (/invisible|principle|believe|philosophy|friction/.test(question.toLowerCase()) && item.sourceType === 'philosophy') score += 8;
   if (/writing|essay|article|read/.test(question.toLowerCase()) && item.sourceType === 'writing') score += 7;
   if (/project|built|build|strongest|best|show/.test(question.toLowerCase()) && item.sourceType === 'project') score += 5;
@@ -106,6 +106,16 @@ function buildAnswer(question: string, knowledge: AskKnowledgeItem[]): AskResult
     .sort((a, b) => b.score - a.score);
   const sources = scored.filter(({ score }) => score > 1).slice(0, 4).map(({ item }) => item);
   const topSources = sources.length ? sources : knowledge.filter((item) => ['profile-luke', 'philosophy-invisible-software'].includes(item.id));
+
+  if (/contact|email|mail|phone|github|linkedin|social|liên hệ|số điện thoại|điện thoại/.test(lower)) {
+    return {
+      question: trimmed,
+      answer: 'Basic contact info for Luke:\nEmail: hi@luc.works\nPhone: 0878272222\nGitHub: https://github.com/tanlucdev\nLinkedIn: https://www.linkedin.com/in/tanlucdev/',
+      sources: knowledge.filter((item) => item.id === 'profile-luke'),
+      followUps: ['What kind of products does Luke build?', 'Which project should I read first?', 'What is Luke focused on?'],
+      confidence: 'high'
+    };
+  }
 
   if (unsupportedPatterns.some((pattern) => lower.includes(pattern))) {
     return {
