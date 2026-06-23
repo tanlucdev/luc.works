@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, FileText, Mail } from 'lucide-react';
 import { useRef } from 'react';
-import { WordsPullUpMultiStyle } from './MotionText';
+import { WordsPullUpMultiStyle, useHashReplay } from './MotionText';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -12,14 +12,17 @@ const links = [
 export default function ContactMotion() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const replayKey = useHashReplay('contact');
 
   return (
     <div ref={ref} className="mx-auto max-w-5xl text-center">
       <WordsPullUpMultiStyle
         segments={[{ text: "Let's build something meaningful.", className: 'text-[#E1E0CC]' }]}
+        replayHash="contact"
         className="text-3xl font-normal leading-[0.95] sm:text-4xl sm:leading-[0.9] md:text-5xl lg:text-6xl xl:text-7xl"
       />
       <motion.p
+        key={`copy-${replayKey}`}
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ delay: 0.35, duration: 0.8, ease }}
@@ -28,6 +31,7 @@ export default function ContactMotion() {
         Open to collaborations, product opportunities, and interesting technical challenges.
       </motion.p>
       <motion.div
+        key={`actions-${replayKey}`}
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ delay: 0.5, duration: 0.8, ease }}
@@ -48,6 +52,7 @@ export default function ContactMotion() {
         </a>
       </motion.div>
       <motion.ul
+        key={`links-${replayKey}`}
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ delay: 0.65, duration: 0.8, ease }}

@@ -16,6 +16,11 @@
       child.style.transitionDelay = `${Math.min(index * 35, 280)}ms`;
     });
 
+    if (!('IntersectionObserver' in window)) {
+      children.forEach((child) => child.classList.add('is-visible'));
+      continue;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -31,7 +36,7 @@
   }
 </script>
 
-<style>
+<style is:global>
   @media (prefers-reduced-motion: no-preference) {
     .motion-ready > .motion-reveal {
       opacity: 0;

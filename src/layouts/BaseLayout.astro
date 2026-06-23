@@ -43,5 +43,98 @@ const schemaItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [person
   </head>
   <body>
     <slot />
+    <script is:inline>
+      (() => {
+        if (window.__lucPageSmoothScrollReady) return;
+        window.__lucPageSmoothScrollReady = true;
+
+        const pendingHashKey = 'lucworks:pending-hash';
+        const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const normalizePath = (path) => path.replace(/\/$/, '') || '/';
+
+        const easeInOutCubic = (progress) =>
+          progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        const getScrollTarget = (target) => {
+          const styles = window.getComputedStyle(target);
+          const scrollMarginTop = Number.parseFloat(styles.scrollMarginTop) || 0;
+          return target.getBoundingClientRect().top + window.scrollY - scrollMarginTop;
+        };
+
+        let scrollAnimationFrame = 0;
+
+        const dispatchHashScrollEnd = (hash) => {
+          window.dispatchEvent(new CustomEvent('lucworks:hash-scroll-end', { detail: { hash: hash.slice(1) } }));
+        };
+
+        const animateScrollTo = (top, onComplete) => {
+          cancelAnimationFrame(scrollAnimationFrame);
+
+          if (prefersReducedMotion()) {
+            window.scrollTo(0, top);
+            onComplete?.();
+            return;
+          }
+
+          const start = window.scrollY;
+          const distance = top - start;
+          const duration = Math.min(1100, Math.max(520, Math.abs(distance) * 0.5));
+          const startedAt = performance.now();
+
+          const tick = (now) => {
+            const progress = Math.min(1, (now - startedAt) / duration);
+            window.scrollTo(0, start + distance * easeInOutCubic(progress));
+            if (progress < 1) {
+              scrollAnimationFrame = requestAnimationFrame(tick);
+              return;
+            }
+            onComplete?.();
+          };
+
+          scrollAnimationFrame = requestAnimationFrame(tick);
+        };
+
+        const scrollToHash = (hash, replaceHistory = false) => {
+          const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+          if (!target) return false;
+
+          animateScrollTo(getScrollTarget(target), () => dispatchHashScrollEnd(hash));
+          const stateMethod = replaceHistory ? 'replaceState' : 'pushState';
+          history[stateMethod](null, '', hash);
+          return true;
+        };
+
+        document.addEventListener('click', (event) => {
+          const link = event.target.closest('a[href]');
+          if (!link || event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          if (link.target && link.target !== '_self') return;
+
+          const url = new URL(link.href, window.location.href);
+          if (url.origin !== window.location.origin || !url.hash) return;
+
+          const isSamePage = normalizePath(url.pathname) === normalizePath(window.location.pathname) && url.search === window.location.search;
+
+          if (isSamePage) {
+            if (!document.getElementById(decodeURIComponent(url.hash.slice(1)))) return;
+            event.preventDefault();
+            scrollToHash(url.hash);
+            return;
+          }
+
+          sessionStorage.setItem(pendingHashKey, url.hash);
+          event.preventDefault();
+          url.hash = '';
+          window.location.assign(url.toString());
+        });
+
+        window.addEventListener('load', () => {
+          const pendingHash = sessionStorage.getItem(pendingHashKey);
+          if (!pendingHash) return;
+
+          sessionStorage.removeItem(pendingHashKey);
+          requestAnimationFrame(() => scrollToHash(pendingHash, true));
+        });
+      })();
+    </script>
   </body>
 </html>

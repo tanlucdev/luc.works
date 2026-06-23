@@ -1,5 +1,5 @@
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -8,6 +8,7 @@ type WordsPullUpProps = {
   className?: string;
   id?: string;
   showAsterisk?: boolean;
+  replayHash?: string;
 };
 
 type Segment = {
@@ -15,9 +16,28 @@ type Segment = {
   className?: string;
 };
 
-export function WordsPullUp({ text, className = '', id, showAsterisk = false }: WordsPullUpProps) {
+export function useHashReplay(replayHash?: string) {
+  const [replayKey, setReplayKey] = useState(0);
+
+  useEffect(() => {
+    if (!replayHash) return;
+
+    const handleHashScrollEnd = (event: Event) => {
+      const hash = (event as CustomEvent<{ hash?: string }>).detail?.hash;
+      if (hash === replayHash) setReplayKey((key) => key + 1);
+    };
+
+    window.addEventListener('lucworks:hash-scroll-end', handleHashScrollEnd);
+    return () => window.removeEventListener('lucworks:hash-scroll-end', handleHashScrollEnd);
+  }, [replayHash]);
+
+  return replayKey;
+}
+
+export function WordsPullUp({ text, className = '', id, showAsterisk = false, replayHash }: WordsPullUpProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
+  const replayKey = useHashReplay(replayHash);
   const words = useMemo(() => text.split(' '), [text]);
 
   return (
@@ -27,7 +47,7 @@ export function WordsPullUp({ text, className = '', id, showAsterisk = false }: 
           const isLast = index === words.length - 1;
           return (
             <motion.span
-              key={`${word}-${index}`}
+              key={`${replayKey}-${word}-${index}`}
               className="mr-[0.18em] inline-block will-change-transform last:mr-0"
               initial={{ y: 20, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
@@ -49,9 +69,10 @@ export function WordsPullUp({ text, className = '', id, showAsterisk = false }: 
   );
 }
 
-export function WordsPullUpMultiStyle({ segments, className = '' }: { segments: Segment[]; className?: string }) {
+export function WordsPullUpMultiStyle({ segments, className = '', replayHash }: { segments: Segment[]; className?: string; replayHash?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
+  const replayKey = useHashReplay(replayHash);
   const words = useMemo(
     () => segments.flatMap((segment) => segment.text.split(' ').filter(Boolean).map((word) => ({ word, className: segment.className ?? '' }))),
     [segments]
@@ -63,7 +84,7 @@ export function WordsPullUpMultiStyle({ segments, className = '' }: { segments: 
       <span className="inline-flex flex-wrap justify-center gap-x-[0.18em]" aria-hidden="true">
         {words.map(({ word, className: wordClass }, index) => (
           <motion.span
-            key={`${word}-${index}`}
+            key={`${replayKey}-${word}-${index}`}
             className={`inline-block will-change-transform ${wordClass}`}
             initial={{ y: 20, opacity: 0 }}
             animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
