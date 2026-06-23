@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import DetailMotion from '../../components/DetailMotion.tsx';
 import MarkdownContent from '../../components/MarkdownContent.astro';
 import ProjectProof from '../../components/ProjectProof.astro';
+import ScrollControls from '../../components/ScrollControls.astro';
 import { writing } from '../../data/content';
 import type { Writing } from '../../data/content';
 import { getProjectBySlug, projects } from '../../data/projects';
@@ -103,20 +104,22 @@ const relatedProjects = projects.filter((item) => item.slug !== project.slug).sl
               <div class="md:sticky md:top-8">
                 <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Case Study</p>
                 <div class="mt-5 hidden space-y-3 text-sm text-gray-500 md:block">
-                  <a href="#artifact" class="block transition-colors hover:text-primary">Artifact</a>
-                  <a href="#story" class="block transition-colors hover:text-primary">Story</a>
-                  <a href="#related" class="block transition-colors hover:text-primary">Related</a>
+                  <a href="#artifact" data-smooth-scroll class="block transition-colors hover:text-primary">Artifact</a>
+                  <a href="#story" data-smooth-scroll class="block transition-colors hover:text-primary">Story</a>
+                  <a href="#related" data-smooth-scroll class="block transition-colors hover:text-primary">Related</a>
                 </div>
               </div>
             </div>
-            <article id="story" class="content-rail md:col-span-9">
-              <div id="artifact">
+            <article class="content-rail md:col-span-9">
+              <div id="artifact" class="scroll-mt-8">
                 <ProjectProof project={project} />
               </div>
-              <MarkdownContent>
-                <Content />
-              </MarkdownContent>
-              <div id="related" class="mt-12 border-t border-primary/10 pt-8 sm:mt-14 sm:pt-10">
+              <div id="story" class="scroll-mt-8">
+                <MarkdownContent>
+                  <Content />
+                </MarkdownContent>
+              </div>
+              <div id="related" class="mt-12 scroll-mt-8 border-t border-primary/10 pt-8 sm:mt-14 sm:pt-10">
                 <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Related</p>
                 <div class="mt-5 grid gap-2 sm:grid-cols-2">
                   {relatedArticles.map((article) => (
@@ -140,5 +143,6 @@ const relatedProjects = projects.filter((item) => item.slug !== project.slug).sl
         </section>
       </div>
     </section>
+    <ScrollControls />
   </main>
 </BaseLayout>

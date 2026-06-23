@@ -9,6 +9,11 @@ type ProofNode = {
   y: number;
 };
 
+type ProofEdge = {
+  source: number;
+  target: number;
+};
+
 type ProofItem = {
   title: string;
   caption: string;
@@ -22,15 +27,33 @@ type Props = {
 
 const { project } = Astro.props;
 
+const defaultEdges: ProofEdge[] = [
+  { source: 0, target: 1 },
+  { source: 1, target: 2 },
+  { source: 2, target: 3 }
+];
+
+const portOffset = 9;
+
+function getEdgePath(source: ProofNode, target: ProofNode) {
+  const sourceX = source.x + portOffset;
+  const sourceY = source.y;
+  const targetX = target.x - portOffset;
+  const targetY = target.y;
+  const bend = Math.max(18, Math.abs(target.x - source.x) * 0.68);
+
+  return `M ${sourceX} ${sourceY} C ${sourceX + bend} ${sourceY}, ${targetX - bend} ${targetY}, ${targetX} ${targetY}`;
+}
+
 const proofBySlug: Record<string, ProofItem> = {
   'cinematic-ai': {
     title: 'Workflow surface',
     caption: 'A compact view of the core product promise: model, prompt, input, transform, and review stay visible as one repeatable pipeline.',
     nodes: [
-      { label: 'Input', meta: 'brief + references', status: 'ready', x: 24, y: 26 },
-      { label: 'Prompt', meta: 'creative direction', status: 'running', x: 42, y: 55 },
-      { label: 'Model', meta: 'generation step', status: 'queued', x: 58, y: 22 },
-      { label: 'Review', meta: 'inspect output', status: 'complete', x: 74, y: 58 }
+      { label: 'Input', meta: 'brief + references', status: 'ready', x: 20, y: 28 },
+      { label: 'Prompt', meta: 'creative direction', status: 'running', x: 40, y: 58 },
+      { label: 'Model', meta: 'generation step', status: 'queued', x: 60, y: 28 },
+      { label: 'Review', meta: 'inspect output', status: 'complete', x: 80, y: 58 }
     ],
     side: ['Visible execution state', 'Reusable node patterns', 'Debuggable creative flow']
   },
@@ -38,10 +61,10 @@ const proofBySlug: Record<string, ProofItem> = {
     title: 'Map/list decision loop',
     caption: 'Cafe discovery becomes faster when spatial context, curated tags, and place details stay coordinated on the same screen.',
     nodes: [
-      { label: 'Area', meta: 'nearby search', status: 'map', x: 24, y: 58 },
-      { label: 'Mood', meta: 'quiet / work', status: 'filter', x: 42, y: 27 },
-      { label: 'Cafe', meta: 'selected pin', status: 'active', x: 58, y: 58 },
-      { label: 'Detail', meta: 'decide fast', status: 'open', x: 74, y: 27 }
+      { label: 'Area', meta: 'nearby search', status: 'map', x: 20, y: 58 },
+      { label: 'Mood', meta: 'quiet / work', status: 'filter', x: 40, y: 28 },
+      { label: 'Cafe', meta: 'selected pin', status: 'active', x: 60, y: 58 },
+      { label: 'Detail', meta: 'decide fast', status: 'open', x: 80, y: 28 }
     ],
     side: ['Map-first browsing', 'Curated context tags', 'Mobile place detail']
   },
@@ -49,10 +72,10 @@ const proofBySlug: Record<string, ProofItem> = {
     title: 'Session state',
     caption: 'The useful realtime story is the room state: people join, signal readiness, focus, break, and complete without adding noise.',
     nodes: [
-      { label: 'Lobby', meta: 'join room', status: 'open', x: 24, y: 27 },
-      { label: 'Ready', meta: 'group signal', status: 'synced', x: 42, y: 58 },
-      { label: 'Focus', meta: 'timer running', status: 'live', x: 58, y: 27 },
-      { label: 'Break', meta: 'quiet reset', status: 'next', x: 74, y: 58 }
+      { label: 'Lobby', meta: 'join room', status: 'open', x: 20, y: 28 },
+      { label: 'Ready', meta: 'group signal', status: 'synced', x: 40, y: 58 },
+      { label: 'Focus', meta: 'timer running', status: 'live', x: 60, y: 28 },
+      { label: 'Break', meta: 'quiet reset', status: 'next', x: 80, y: 58 }
     ],
     side: ['Clear room lifecycle', 'Low-noise presence', 'Repeatable focus rhythm']
   },
@@ -60,10 +83,10 @@ const proofBySlug: Record<string, ProofItem> = {
     title: 'Frontend boundaries',
     caption: 'This page works best as principles made concrete: static Astro shells, focused React islands, markdown content, and one visual system.',
     nodes: [
-      { label: 'Astro', meta: 'page shell', status: 'static', x: 24, y: 27 },
-      { label: 'Content', meta: 'markdown data', status: 'source', x: 42, y: 58 },
-      { label: 'React', meta: 'motion islands', status: 'client', x: 58, y: 27 },
-      { label: 'Tailwind', meta: 'design tokens', status: 'system', x: 74, y: 58 }
+      { label: 'Astro', meta: 'page shell', status: 'static', x: 20, y: 28 },
+      { label: 'Content', meta: 'markdown data', status: 'source', x: 40, y: 58 },
+      { label: 'React', meta: 'motion islands', status: 'client', x: 60, y: 28 },
+      { label: 'Tailwind', meta: 'design tokens', status: 'system', x: 80, y: 58 }
     ],
     side: ['Small component surface', 'Evidence-led claims', 'Consistent design rules']
   }
@@ -78,14 +101,41 @@ const proof = proofBySlug[project.slug];
       <div class="grid gap-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.6fr)]">
         <div class="relative min-h-[320px] overflow-hidden bg-[#171717] p-5 sm:min-h-[380px] sm:p-6">
           <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.08]"></div>
-          <svg class="absolute inset-0 h-full w-full" viewBox="0 0 100 80" role="img" aria-label={`${project.title} ${proof.title}`}>
-            <path class="project-proof-path" d={`M ${proof.nodes[0].x} ${proof.nodes[0].y} C 28 16, 30 18, ${proof.nodes[1].x} ${proof.nodes[1].y} S 55 62, ${proof.nodes[2].x} ${proof.nodes[2].y} S 75 22, ${proof.nodes[3].x} ${proof.nodes[3].y}`} fill="none" stroke="#c5ff41" stroke-opacity="0.35" stroke-width="0.35" />
+          <div class="project-proof-grid absolute inset-0"></div>
+          <svg class="pointer-events-none absolute inset-0 z-10 h-full w-full" viewBox="0 0 100 80" role="img" aria-label={`${project.title} ${proof.title}`} preserveAspectRatio="none">
+            <defs>
+              <filter id={`proof-glow-${project.slug}`} x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="1.15" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <marker id={`proof-arrow-${project.slug}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                <path d="M 1 1 L 9 5 L 1 9 z" fill="#c5ff41" fill-opacity="0.78" />
+              </marker>
+            </defs>
+            {defaultEdges.map((edge, index) => {
+              const source = proof.nodes[edge.source];
+              const target = proof.nodes[edge.target];
+              const edgePath = getEdgePath(source, target);
+
+              return (
+                <g class="project-proof-edge" style={`--edge-index: ${index}`}>
+                  <path d={edgePath} class="project-proof-edge-halo" pathLength="1" stroke="#c5ff41" stroke-opacity="0.2" stroke-width="9" stroke-linecap="round" />
+                  <path d={edgePath} class="project-proof-edge-line" pathLength="1" stroke="#c5ff41" stroke-opacity="0.92" stroke-width="2.4" stroke-linecap="round" filter={`url(#proof-glow-${project.slug})`} marker-end={`url(#proof-arrow-${project.slug})`} />
+                  <path d={edgePath} class="project-proof-edge-pulse" pathLength="1" stroke="#e1e0cc" stroke-opacity="0.95" stroke-width="3" stroke-linecap="round" />
+                </g>
+              );
+            })}
           </svg>
-          {proof.nodes.map((node) => (
-            <div class="absolute w-[112px] rounded-[8px] border border-primary/10 bg-black/70 p-3 shadow-2xl shadow-black/40 backdrop-blur sm:w-[168px] sm:p-4" style={`left: ${node.x}%; top: ${node.y}%; transform: translate(-50%, -50%);`}>
+          {proof.nodes.map((node, index) => (
+            <div class="project-proof-node absolute z-20 w-[118px] rounded-[8px] border border-primary/15 bg-black/80 p-3 shadow-2xl shadow-black/45 backdrop-blur sm:w-[168px] sm:p-4" data-node-index={String(index)} style={`--node-x: ${node.x}%; --node-y: ${node.y}%;`}>
+              <span class="project-proof-port project-proof-port-in"></span>
+              <span class="project-proof-port project-proof-port-out"></span>
               <div class="flex items-center justify-between gap-3">
                 <p class="text-sm leading-none text-[#E1E0CC] sm:text-base">{node.label}</p>
-                <span class="h-2 w-2 rounded-full bg-primary shadow-[0_0_18px_rgba(197,255,65,0.55)]"></span>
+                <span class="h-2 w-2 rounded-full bg-[#e1e0cc] shadow-[0_0_18px_rgba(197,255,65,0.45)]"></span>
               </div>
               <p class="mt-3 text-[11px] leading-snug text-gray-500 sm:text-xs">{node.meta}</p>
               <p class="mt-4 text-[10px] uppercase tracking-[0.2em] text-primary/70">{node.status}</p>
@@ -108,3 +158,94 @@ const proof = proofBySlug[project.slug];
     </div>
   )
 }
+
+<style>
+  .project-proof-grid {
+    background-image:
+      radial-gradient(circle at 50% 48%, rgba(197, 255, 65, 0.1), transparent 34%),
+      linear-gradient(rgba(225, 224, 204, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(225, 224, 204, 0.045) 1px, transparent 1px);
+    background-size: 100% 100%, 36px 36px, 36px 36px;
+    mask-image: radial-gradient(circle at center, black 0%, black 58%, transparent 86%);
+  }
+
+  .project-proof-edge-halo,
+  .project-proof-edge-line,
+  .project-proof-edge-pulse {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .project-proof-edge-halo {
+    opacity: 1;
+  }
+
+  .project-proof-edge-line {
+    opacity: 1;
+  }
+
+  .project-proof-edge-pulse {
+    animation: proof-flow 3.8s linear infinite;
+    animation-delay: calc(var(--edge-index) * -0.75s);
+    stroke-dasharray: 0.1 0.9;
+  }
+
+  .project-proof-node {
+    left: var(--node-x);
+    top: var(--node-y);
+    transform: translate(-50%, -50%);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.045), transparent 42%);
+  }
+
+  .project-proof-node::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 1px 0 rgba(225, 224, 204, 0.08);
+  }
+
+  .project-proof-port {
+    position: absolute;
+    top: 50%;
+    width: 11px;
+    height: 11px;
+    border: 1px solid rgba(197, 255, 65, 0.56);
+    border-radius: 999px;
+    background: #171717;
+    box-shadow: 0 0 0 4px rgba(197, 255, 65, 0.08), 0 0 18px rgba(197, 255, 65, 0.25);
+    transform: translateY(-50%);
+    z-index: 30;
+  }
+
+  .project-proof-port-in {
+    left: -6px;
+  }
+
+  .project-proof-port-out {
+    right: -6px;
+  }
+
+  @keyframes proof-flow {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-proof-edge-pulse {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .project-proof-node {
+      width: 104px;
+    }
+
+  }
+</style>

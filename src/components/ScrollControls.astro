@@ -1,0 +1,140 @@
+---
+type Props = {
+  threshold?: number;
+};
+
+const { threshold = 720 } = Astro.props;
+---
+
+<button
+  type="button"
+  class="scroll-top-button pointer-events-none fixed bottom-5 right-5 z-50 grid h-12 w-12 translate-y-4 scale-95 place-items-center rounded-full opacity-0 shadow-2xl shadow-black/45 transition duration-500 ease-out hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary sm:bottom-6 sm:right-6"
+  data-scroll-top
+  data-threshold={String(threshold)}
+  aria-label="Scroll to top"
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <span class="scroll-top-button__ring" aria-hidden="true"></span>
+  <svg class="scroll-top-button__icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 19V5" />
+    <path d="m5 12 7-7 7 7" />
+  </svg>
+</button>
+
+<script is:inline>
+  (() => {
+    const easeInOutCubic = (progress) =>
+      progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+    const getScrollTarget = (target) => {
+      const styles = window.getComputedStyle(target);
+      const scrollMarginTop = Number.parseFloat(styles.scrollMarginTop) || 0;
+      return target.getBoundingClientRect().top + window.scrollY - scrollMarginTop;
+    };
+
+    let scrollAnimationFrame = 0;
+
+    const animateScrollTo = (top) => {
+      cancelAnimationFrame(scrollAnimationFrame);
+
+      const start = window.scrollY;
+      const distance = top - start;
+      const duration = Math.min(1100, Math.max(650, Math.abs(distance) * 0.55));
+      const startedAt = performance.now();
+
+      const tick = (now) => {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        window.scrollTo(0, start + distance * easeInOutCubic(progress));
+        if (progress < 1) scrollAnimationFrame = requestAnimationFrame(tick);
+      };
+
+      scrollAnimationFrame = requestAnimationFrame(tick);
+    };
+
+    if (!window.__lucSmoothScrollReady) {
+      window.__lucSmoothScrollReady = true;
+      document.addEventListener('click', (event) => {
+        const link = event.target.closest('[data-smooth-scroll]');
+        if (!link) return;
+
+        const href = link.getAttribute('href');
+        if (!href?.startsWith('#')) return;
+
+        const target = document.getElementById(href.slice(1));
+        if (!target) return;
+
+        event.preventDefault();
+        animateScrollTo(getScrollTarget(target));
+        history.replaceState(null, '', href);
+      });
+    }
+
+    for (const button of document.querySelectorAll('[data-scroll-top]:not([data-scroll-top-ready])')) {
+      button.setAttribute('data-scroll-top-ready', 'true');
+      const threshold = Number(button.getAttribute('data-threshold') ?? 720);
+      const setVisible = () => {
+        const isVisible = window.scrollY > threshold;
+        button.classList.toggle('opacity-0', !isVisible);
+        button.classList.toggle('pointer-events-none', !isVisible);
+        button.classList.toggle('translate-y-4', !isVisible);
+        button.classList.toggle('scale-95', !isVisible);
+        button.setAttribute('aria-hidden', String(!isVisible));
+        button.tabIndex = isVisible ? 0 : -1;
+      };
+
+      button.addEventListener('click', () => {
+        animateScrollTo(0);
+      });
+
+      setVisible();
+      window.addEventListener('scroll', setVisible, { passive: true });
+    }
+  })();
+</script>
+
+<style>
+  .scroll-top-button__ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(197, 255, 65, 0.24);
+    border-radius: 999px;
+    background:
+      linear-gradient(#101010, #101010) padding-box,
+      linear-gradient(135deg, rgba(197, 255, 65, 0.42), rgba(225, 224, 204, 0.1)) border-box;
+    box-shadow:
+      inset 0 1px 0 rgba(225, 224, 204, 0.08),
+      0 10px 36px rgba(0, 0, 0, 0.42);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .scroll-top-button__icon {
+    position: relative;
+    color: #e1e0cc;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+    transition:
+      color 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .scroll-top-button:hover .scroll-top-button__ring {
+    border-color: rgba(197, 255, 65, 0.58);
+    box-shadow:
+      inset 0 1px 0 rgba(225, 224, 204, 0.12),
+      0 14px 42px rgba(0, 0, 0, 0.5),
+      0 0 24px rgba(197, 255, 65, 0.1);
+    transform: scale(1.04);
+  }
+
+  .scroll-top-button:hover .scroll-top-button__icon {
+    color: #c5ff41;
+    transform: translateY(-2px);
+  }
+</style>

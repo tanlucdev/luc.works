@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import DetailMotion from '../../components/DetailMotion.tsx';
 import MarkdownContent from '../../components/MarkdownContent.astro';
+import ScrollControls from '../../components/ScrollControls.astro';
 import { getWritingBySlug, writing } from '../../data/content';
 import { projects } from '../../data/projects';
 import { absoluteUrl, breadcrumbSchema, personSchema } from '../../data/seo';
@@ -130,5 +131,6 @@ const relatedProjects = (relatedProjectByArticle[article.slug] ?? [])
         </section>
       </div>
     </section>
+    <ScrollControls />
   </main>
 </BaseLayout>
