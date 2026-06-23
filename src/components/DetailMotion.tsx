@@ -16,14 +16,14 @@ type DetailMotionProps = {
 export default function DetailMotion({ eyebrow, title, summary, tags, titleClassName, role, highlights = [] }: DetailMotionProps) {
   return (
     <div className="grid min-h-[calc(100vh-96px)] content-between gap-12 pt-14 md:pt-20">
-      <div className="grid gap-8 md:grid-cols-12 md:items-end">
-        <div className="md:col-span-8">
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-x-12 xl:gap-x-16">
+        <div className="min-w-0 lg:col-span-7">
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, ease }} className="text-xs uppercase tracking-[0.24em] text-primary/70">
             {eyebrow}
           </motion.p>
           <WordsPullUp text={title} className={titleClassName} />
         </div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease }} className="max-w-xl md:col-span-4">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease }} className="max-w-xl lg:col-span-4 lg:col-start-9">
           <p className="text-sm leading-relaxed text-gray-400 sm:text-base">{summary}</p>
           <div className="mt-8 flex flex-wrap gap-2">
             {tags.map((tag) => (

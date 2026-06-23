@@ -94,7 +94,7 @@ const relatedProjects = projects.filter((item) => item.slug !== project.slug).sl
           tags={project.stack}
           role={project.role}
           highlights={project.highlights}
-          titleClassName="mt-5 text-[18vw] font-medium leading-[0.82] text-[#E1E0CC] sm:text-[15vw] md:text-[12vw] lg:text-[10vw]"
+          titleClassName="mt-5 text-[18vw] font-medium leading-[0.82] text-[#E1E0CC] sm:text-[15vw] md:text-[12vw] lg:text-[clamp(5rem,8vw,8rem)]"
           client:load
         />
 
