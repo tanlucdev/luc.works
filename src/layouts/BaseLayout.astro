@@ -1,5 +1,6 @@
 ---
 import '../styles/index.css';
+import Analytics from '@vercel/analytics/astro';
 import { defaultOgImage, personSchema } from '../data/seo';
 
 const {
@@ -43,6 +44,7 @@ const schemaItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [person
   </head>
   <body>
     <slot />
+    <Analytics />
     <script is:inline>
       (() => {
         if (window.__lucPageSmoothScrollReady) return;
