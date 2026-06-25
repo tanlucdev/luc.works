@@ -2,6 +2,7 @@
 import '../styles/index.css';
 import Analytics from '@vercel/analytics/astro';
 import { defaultOgImage, personSchema } from '../data/seo';
+import SpeedInsights from "@vercel/speed-insights/astro"
 
 const {
   title = 'Luke - Frontend Engineer in Vietnam | luc.works',
@@ -45,6 +46,7 @@ const schemaItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [person
   <body>
     <slot />
     <Analytics />
+    <SpeedInsights />
     <script is:inline>
       (() => {
         if (window.__lucPageSmoothScrollReady) return;

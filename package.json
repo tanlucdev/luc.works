@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/react": "^6.0.0",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "astro": "^7.0.0",
     "framer-motion": "latest",
     "lucide-react": "latest",
