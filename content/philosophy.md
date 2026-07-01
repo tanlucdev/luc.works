@@ -50,7 +50,7 @@ The featured projects show a consistent interest in reducing friction:
 - CinematicAI focuses on making creative AI pipelines repeatable and understandable.
 - CafeMaps focuses on quicker, more trustworthy cafe discovery.
 - Study Stream focuses on shared accountability without distracting users from focus.
-- Engineering Focus describes component boundaries, maintainable styling, accessible interfaces, and pragmatic AI-assisted workflows.
+- How I Build describes component boundaries, maintainable styling, accessible interfaces, and pragmatic AI-assisted workflows.
 
 ## Content Belief
 

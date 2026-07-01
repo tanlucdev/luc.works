@@ -20,6 +20,25 @@ export type ProjectFrontmatter = {
   highlights: string[];
   status?: string;
   source_evidence?: string[];
+  media?: {
+    type: 'image' | 'video' | 'mockup';
+    title: string;
+    caption: string;
+  };
+  availability?: string;
+  caseSummary?: {
+    problem: string;
+    role: string;
+    decisions: string[];
+    result: string;
+    lesson: string;
+  };
+  proofMoments?: {
+    title: string;
+    body: string;
+    kind: 'workflow' | 'debug' | 'reuse' | 'map' | 'place' | 'cms' | 'session' | 'presence' | 'analytics' | 'architecture' | 'tokens' | 'process';
+    caption: string;
+  }[];
 };
 
 export type WritingFrontmatter = {

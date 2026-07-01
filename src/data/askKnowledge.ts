@@ -95,13 +95,13 @@ export const askKnowledge: AskKnowledgeItem[] = [
   },
   {
     id: 'project-engineering-focus',
-    title: 'Engineering Focus',
-    summary: 'Practice-area page about frontend systems, clean component boundaries, design systems, Astro, React islands, TypeScript, Tailwind, and pragmatic AI-assisted workflows.',
-    body: 'Engineering Focus is best treated as a principles and practice page rather than a separate shipped product. The portfolio itself is a compact Astro site using React islands for motion, TypeScript, Tailwind CSS, Framer Motion, lucide-react, shared layout metadata, and a dark visual design system. Documented decisions include using Astro for content-focused routes, React only where motion or client behavior is useful, centralized content metadata, consistent Tailwind patterns, and honest framing when project evidence is limited.',
+    title: 'How I Build',
+    summary: 'Principles page about frontend systems, clean component boundaries, design systems, Astro, React islands, TypeScript, Tailwind, and pragmatic AI-assisted workflows.',
+    body: 'How I Build is a principles and practice page rather than a separate shipped product. The portfolio itself is a compact Astro site using React islands for motion, TypeScript, Tailwind CSS, Framer Motion, lucide-react, shared layout metadata, and a dark visual design system. Documented decisions include using Astro for content-focused routes, React only where motion or client behavior is useful, markdown content, consistent Tailwind patterns, and honest framing when project evidence is limited.',
     url: '/projects/engineering-focus/',
     sourceType: 'project',
     topics: ['projects', 'engineering decisions', 'frontend architecture', 'design systems', 'astro', 'react', 'typescript', 'tailwind'],
-    entities: ['Engineering Focus', 'portfolio'],
+    entities: ['How I Build', 'Engineering Focus', 'portfolio'],
     confidence: 'medium',
     relatedProjectSlugs: ['cinematic-ai'],
     relatedWritingSlugs: ['building-node-based-editors-without-hiding-system-state']
