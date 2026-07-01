@@ -1,6 +1,7 @@
 ---
 import FeatureCards from './FeatureCards.tsx';
 import FeaturesHeader from './FeaturesHeader.tsx';
+import ProjectProofStrip from './ProjectProofStrip.astro';
 import { projects } from '../data/projects';
 
 const projectCards = projects.map(({ Content, ...project }) => project);
@@ -11,5 +12,6 @@ const projectCards = projects.map(({ Content, ...project }) => project);
   <div class="relative z-10 mx-auto max-w-7xl">
     <FeaturesHeader client:visible />
     <FeatureCards projects={projectCards} client:visible />
+    <ProjectProofStrip />
   </div>
 </section>

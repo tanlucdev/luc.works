@@ -1,0 +1,93 @@
+---
+import { projects } from '../data/projects';
+
+const featured = projects.filter((project) => ['cinematic-ai', 'cafe-maps', 'study-stream'].includes(project.slug));
+---
+
+<section class="mt-12 grid gap-2 sm:mt-14 lg:grid-cols-3" aria-label="Product proof previews">
+  {featured.map((project) => (
+    <a href={`/projects/${project.slug}`} class="proof-strip-card group">
+      <div class={`proof-strip-card__visual proof-strip-card__visual--${project.slug}`} aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="p-5 sm:p-6">
+        <p class="text-xs uppercase tracking-[0.22em] text-primary/70">{project.media?.type === 'mockup' ? 'Mockup evidence' : 'Project media'}</p>
+        <h3 class="mt-4 text-2xl font-normal leading-none text-[#E1E0CC]">{project.title}</h3>
+        <p class="mt-4 text-sm leading-relaxed text-gray-500">{project.media?.caption ?? project.description}</p>
+      </div>
+    </a>
+  ))}
+</section>
+
+<style>
+  .proof-strip-card {
+    overflow: hidden;
+    border-radius: 8px;
+    background: #101010;
+    outline: none;
+    transition: background 300ms ease, transform 300ms ease;
+  }
+
+  .proof-strip-card:hover,
+  .proof-strip-card:focus-visible {
+    background: #171717;
+    transform: translateY(-2px);
+  }
+
+  .proof-strip-card__visual {
+    position: relative;
+    min-height: 210px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 45%, rgba(222, 219, 200, 0.12), transparent 34%),
+      linear-gradient(rgba(225, 224, 204, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(225, 224, 204, 0.045) 1px, transparent 1px),
+      #171717;
+    background-size: 100% 100%, 32px 32px, 32px 32px, 100% 100%;
+  }
+
+  .proof-strip-card__visual span {
+    position: absolute;
+    border: 1px solid rgba(222, 219, 200, 0.18);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.68);
+  }
+
+  .proof-strip-card__visual--cinematic-ai span {
+    width: 7.5rem;
+    height: 4rem;
+  }
+
+  .proof-strip-card__visual--cinematic-ai span:nth-child(1) { left: 12%; top: 22%; }
+  .proof-strip-card__visual--cinematic-ai span:nth-child(2) { left: 38%; top: 48%; }
+  .proof-strip-card__visual--cinematic-ai span:nth-child(3) { right: 12%; top: 28%; }
+
+  .proof-strip-card__visual--cafe-maps span {
+    border-radius: 999px;
+  }
+
+  .proof-strip-card__visual--cafe-maps span:nth-child(1) { left: 20%; top: 36%; width: 0.8rem; height: 0.8rem; }
+  .proof-strip-card__visual--cafe-maps span:nth-child(2) { left: 56%; top: 42%; width: 1.1rem; height: 1.1rem; background: #DEDBC8; }
+  .proof-strip-card__visual--cafe-maps span:nth-child(3) { right: 8%; bottom: 12%; width: 12rem; height: 5.5rem; border-radius: 8px; }
+
+  .proof-strip-card__visual--study-stream span:nth-child(1) {
+    left: 50%;
+    top: 25%;
+    width: 9rem;
+    height: 4.5rem;
+    border: 0;
+    background: transparent;
+    color: #E1E0CC;
+    transform: translateX(-50%);
+  }
+
+  .proof-strip-card__visual--study-stream span:nth-child(1)::after {
+    content: '42:18';
+    font-size: 2.8rem;
+  }
+
+  .proof-strip-card__visual--study-stream span:nth-child(2) { left: 18%; right: 18%; bottom: 34%; height: 0.45rem; border-radius: 999px; background: rgba(222, 219, 200, 0.5); }
+  .proof-strip-card__visual--study-stream span:nth-child(3) { left: 24%; right: 24%; bottom: 18%; height: 2.4rem; border-radius: 999px; }
+</style>

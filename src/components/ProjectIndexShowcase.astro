@@ -1,0 +1,128 @@
+---
+import type { Project } from '../data/projects';
+
+type Props = {
+  projects: Project[];
+};
+
+const { projects } = Astro.props;
+const flagship = projects.find((project) => project.slug === 'cinematic-ai') ?? projects[0];
+const secondary = projects.filter((project) => project.slug !== flagship.slug);
+---
+
+<section class="mt-10 grid gap-2 sm:mt-12 lg:grid-cols-12" aria-label="Selected project work">
+  <a href={`/projects/${flagship.slug}`} class="project-showcase project-showcase--flagship lg:col-span-7">
+    <div class="project-showcase__mock" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="project-showcase__copy">
+      <p>Flagship case study</p>
+      <h2>{flagship.title}</h2>
+      <span>{flagship.description}</span>
+    </div>
+  </a>
+
+  <div class="grid gap-2 lg:col-span-5">
+    {secondary.map((project) => (
+      <a href={`/projects/${project.slug}`} class={`project-showcase project-showcase--compact ${project.slug === 'engineering-focus' ? 'project-showcase--principles' : ''}`}>
+        <div>
+          <p>{project.slug === 'engineering-focus' ? 'Principles' : `Project ${project.number}`}</p>
+          <h2>{project.slug === 'engineering-focus' ? 'How I build' : project.title}</h2>
+        </div>
+        <span>{project.slug === 'engineering-focus' ? 'Frontend architecture, design-system discipline, and AI-assisted workflow habits.' : project.description}</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .project-showcase {
+    display: grid;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #101010;
+    outline: none;
+    transition: background 300ms ease, transform 300ms ease;
+  }
+
+  .project-showcase:hover,
+  .project-showcase:focus-visible {
+    background: #171717;
+    transform: translateY(-2px);
+  }
+
+  .project-showcase--flagship {
+    min-height: 520px;
+    grid-template-rows: minmax(280px, 1fr) auto;
+  }
+
+  .project-showcase__mock {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 44%, rgba(222, 219, 200, 0.13), transparent 34%),
+      linear-gradient(rgba(225, 224, 204, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(225, 224, 204, 0.045) 1px, transparent 1px),
+      #171717;
+    background-size: 100% 100%, 36px 36px, 36px 36px, 100% 100%;
+  }
+
+  .project-showcase__mock span {
+    position: absolute;
+    width: min(11rem, 32vw);
+    height: 4.7rem;
+    border: 1px solid rgba(222, 219, 200, 0.18);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.72);
+  }
+
+  .project-showcase__mock span:nth-child(1) { left: 9%; top: 24%; }
+  .project-showcase__mock span:nth-child(2) { left: 32%; top: 52%; }
+  .project-showcase__mock span:nth-child(3) { right: 14%; top: 27%; }
+  .project-showcase__mock span:nth-child(4) { right: 7%; bottom: 13%; width: min(16rem, 44vw); height: 6rem; }
+
+  .project-showcase__copy,
+  .project-showcase--compact {
+    padding: 1.25rem;
+  }
+
+  .project-showcase p {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(222, 219, 200, 0.7);
+  }
+
+  .project-showcase h2 {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 5vw, 4.6rem);
+    font-weight: 400;
+    line-height: 0.95;
+    color: #E1E0CC;
+  }
+
+  .project-showcase span {
+    display: block;
+    margin-top: 1rem;
+    max-width: 42rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgb(156 163 175);
+  }
+
+  .project-showcase--compact {
+    min-height: 168px;
+    align-content: space-between;
+  }
+
+  .project-showcase--compact h2 {
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+  }
+
+  .project-showcase--principles {
+    background: #0d0d0d;
+  }
+</style>

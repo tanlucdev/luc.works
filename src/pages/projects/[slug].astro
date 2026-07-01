@@ -25,7 +25,7 @@ const projectTitleSpecialty: Record<string, string> = {
   'cinematic-ai': 'AI Workflow Platform Case Study',
   'cafe-maps': 'Map Discovery Product Case Study',
   'study-stream': 'Collaborative Productivity Case Study',
-  'engineering-focus': 'Frontend Architecture Case Study'
+  'engineering-focus': 'Frontend Engineering Principles'
 };
 
 const title = `${project.title} - ${projectTitleSpecialty[project.slug] ?? 'Product Case Study'} | luc.works`;
@@ -116,6 +116,34 @@ const relatedProjects = projects.filter((item) => item.slug !== project.slug).sl
               <div id="artifact" class="scroll-mt-8">
                 <ProjectProof project={project} />
               </div>
+              {project.caseSummary && (
+                <section class="mb-12 grid gap-2 sm:mb-14 md:grid-cols-2" aria-label={`${project.title} case summary`}>
+                  <div class="rounded-[8px] bg-[#101010] p-5 sm:p-6">
+                    <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Problem</p>
+                    <p class="mt-5 text-sm leading-relaxed text-gray-400 sm:text-base">{project.caseSummary.problem}</p>
+                  </div>
+                  <div class="rounded-[8px] bg-[#101010] p-5 sm:p-6">
+                    <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Role</p>
+                    <p class="mt-5 text-sm leading-relaxed text-gray-400 sm:text-base">{project.caseSummary.role}</p>
+                  </div>
+                  <div class="rounded-[8px] bg-[#101010] p-5 sm:p-6 md:col-span-2">
+                    <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Decisions</p>
+                    <ul class="mt-5 grid gap-3 md:grid-cols-3">
+                      {project.caseSummary.decisions.map((decision) => (
+                        <li class="border-l border-primary/30 pl-4 text-sm leading-relaxed text-gray-400">{decision}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div class="rounded-[8px] bg-[#101010] p-5 sm:p-6">
+                    <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Current state</p>
+                    <p class="mt-5 text-sm leading-relaxed text-gray-400 sm:text-base">{project.caseSummary.result}</p>
+                  </div>
+                  <div class="rounded-[8px] bg-[#101010] p-5 sm:p-6">
+                    <p class="text-xs uppercase tracking-[0.22em] text-primary/70">Lesson</p>
+                    <p class="mt-5 text-sm leading-relaxed text-gray-400 sm:text-base">{project.caseSummary.lesson}</p>
+                  </div>
+                </section>
+              )}
               <div id="story" class="scroll-mt-8">
                 <MarkdownContent>
                   <Content />

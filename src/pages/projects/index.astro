@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import FeatureCards from '../../components/FeatureCards.tsx';
+import ProjectIndexShowcase from '../../components/ProjectIndexShowcase.astro';
 import { projects } from '../../data/projects';
 import { absoluteUrl, breadcrumbSchema } from '../../data/seo';
 
-const projectCards = projects.map(({ Content, ...project }) => project);
 const canonical = absoluteUrl('/projects/');
 const description = 'Project work by Luke on AI workflow systems, product UX, frontend architecture, map discovery products, and collaborative productivity tools.';
 ---
@@ -35,7 +34,7 @@ const description = 'Project work by Luke on AI workflow systems, product UX, fr
             </div>
           </div>
 
-          <FeatureCards projects={projectCards} client:visible />
+          <ProjectIndexShowcase projects={projects} />
         </div>
       </div>
     </section>
