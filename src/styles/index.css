@@ -88,6 +88,24 @@ a {
   align-items: center;
 }
 
+.hero-copy {
+  max-width: calc(100vw - 4rem);
+}
+
+.hero-copy p {
+  max-width: min(18rem, calc(100vw - 4rem));
+}
+
+@media (min-width: 768px) {
+  .hero-copy {
+    max-width: 28rem;
+  }
+
+  .hero-copy p {
+    max-width: 100%;
+  }
+}
+
 .content-rail {
   overflow-wrap: anywhere;
   text-wrap: pretty;

@@ -37,8 +37,15 @@ export function useHashReplay(replayHash?: string) {
 export function WordsPullUp({ text, className = '', id, showAsterisk = false, replayHash }: WordsPullUpProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
+  const [hasMounted, setHasMounted] = useState(false);
   const replayKey = useHashReplay(replayHash);
   const words = useMemo(() => text.split(' '), [text]);
+  const isVisible = !hasMounted || isInView;
+  const mountKey = hasMounted ? 'motion' : 'static';
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <div ref={ref} id={id} className={className} aria-label={text}>
@@ -47,10 +54,10 @@ export function WordsPullUp({ text, className = '', id, showAsterisk = false, re
           const isLast = index === words.length - 1;
           return (
             <motion.span
-              key={`${replayKey}-${word}-${index}`}
+              key={`${mountKey}-${replayKey}-${word}-${index}`}
               className="mr-[0.18em] inline-block will-change-transform last:mr-0"
-              initial={{ y: 20, opacity: 0 }}
-              animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+              initial={hasMounted ? { y: 20, opacity: 0 } : false}
+              animate={isVisible ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
               transition={{ delay: index * 0.08, duration: 0.8, ease }}
             >
               {showAsterisk && isLast ? (
@@ -72,22 +79,29 @@ export function WordsPullUp({ text, className = '', id, showAsterisk = false, re
 export function WordsPullUpMultiStyle({ segments, className = '', replayHash }: { segments: Segment[]; className?: string; replayHash?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
+  const [hasMounted, setHasMounted] = useState(false);
   const replayKey = useHashReplay(replayHash);
   const words = useMemo(
     () => segments.flatMap((segment) => segment.text.split(' ').filter(Boolean).map((word) => ({ word, className: segment.className ?? '' }))),
     [segments]
   );
   const label = segments.map((segment) => segment.text).join(' ');
+  const isVisible = !hasMounted || isInView;
+  const mountKey = hasMounted ? 'motion' : 'static';
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <div ref={ref} className={className} aria-label={label}>
       <span className="inline-flex flex-wrap justify-center gap-x-[0.18em]" aria-hidden="true">
         {words.map(({ word, className: wordClass }, index) => (
           <motion.span
-            key={`${replayKey}-${word}-${index}`}
+            key={`${mountKey}-${replayKey}-${word}-${index}`}
             className={`inline-block will-change-transform ${wordClass}`}
-            initial={{ y: 20, opacity: 0 }}
-            animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+            initial={hasMounted ? { y: 20, opacity: 0 } : false}
+            animate={isVisible ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
             transition={{ delay: index * 0.08, duration: 0.8, ease }}
           >
             {word}
