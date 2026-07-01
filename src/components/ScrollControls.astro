@@ -65,9 +65,42 @@ const { threshold = 720 } = Astro.props;
         if (!target) return;
 
         event.preventDefault();
+        for (const navLink of document.querySelectorAll('[data-section-nav-link]')) {
+          navLink.classList.toggle('is-active', navLink === link);
+        }
         animateScrollTo(getScrollTarget(target));
         history.replaceState(null, '', href);
       });
+    }
+
+    const sectionNavLinks = [...document.querySelectorAll('[data-section-nav-link]')];
+    const sectionTargets = sectionNavLinks
+      .map((link) => {
+        const href = link.getAttribute('href');
+        if (!href?.startsWith('#')) return undefined;
+        const target = document.getElementById(href.slice(1));
+        return target ? { link, target } : undefined;
+      })
+      .filter(Boolean);
+
+    if (sectionTargets.length) {
+      const setActiveSection = () => {
+        const anchorY = window.scrollY + window.innerHeight * 0.34;
+        let active = sectionTargets[0];
+
+        for (const item of sectionTargets) {
+          const top = item.target.getBoundingClientRect().top + window.scrollY;
+          if (top <= anchorY) active = item;
+        }
+
+        for (const item of sectionTargets) {
+          item.link.classList.toggle('is-active', item === active);
+        }
+      };
+
+      setActiveSection();
+      window.addEventListener('scroll', setActiveSection, { passive: true });
+      window.addEventListener('resize', setActiveSection);
     }
 
     for (const button of document.querySelectorAll('[data-scroll-top]:not([data-scroll-top-ready])')) {

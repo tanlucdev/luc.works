@@ -93,6 +93,31 @@ a {
   text-wrap: pretty;
 }
 
+.content-rail h2 {
+  scroll-margin-top: 6rem;
+}
+
+.content-rail-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(225, 224, 204, 0.22) transparent;
+}
+
+.section-nav-link {
+  color: rgb(107 114 128);
+}
+
+.section-nav-link.is-active {
+  color: #E1E0CC;
+}
+
+@media (min-width: 768px) {
+  .content-rail-scroll {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding-bottom: 2rem;
+  }
+}
+
 .project-proof-path {
   stroke-dasharray: 8 10;
   animation: proof-flow 4.8s linear infinite;

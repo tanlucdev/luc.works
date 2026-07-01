@@ -72,7 +72,7 @@ const relatedProjects = (relatedProjectByArticle[article.slug] ?? [])
   ]}
 >
   <main class="min-h-screen bg-black text-[#E1E0CC]">
-    <section class="relative overflow-hidden px-4 py-6 sm:px-6 md:py-8">
+    <section class="relative px-4 py-6 sm:px-6 md:py-8">
       <div class="bg-noise pointer-events-none absolute inset-0 opacity-[0.14]"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <nav aria-label="Article" class="site-nav flex items-center justify-between gap-4 py-3 text-xs text-gray-500 sm:text-sm">
@@ -93,9 +93,14 @@ const relatedProjects = (relatedProjectByArticle[article.slug] ?? [])
         <section class="border-t border-primary/10 py-12 sm:py-20 md:py-24">
           <div class="grid gap-10 md:grid-cols-12 md:gap-8">
             <div class="md:col-span-3">
-              <div class="md:sticky md:top-8">
+              <div class="content-rail-scroll md:sticky md:top-8">
                 <p class="text-xs uppercase tracking-[0.24em] text-primary/70">Article</p>
-                <a href="/writing" class="mt-5 hidden text-sm text-gray-500 transition-colors hover:text-primary md:block">All notes</a>
+                <div class="mt-5 hidden space-y-3 text-sm text-gray-500 md:block">
+                  {article.sectionLinks.map((section) => (
+                    <a href={section.href} data-smooth-scroll data-section-nav-link class="section-nav-link block transition-colors hover:text-primary">{section.title}</a>
+                  ))}
+                  <a href="/writing" class="block transition-colors hover:text-primary">All notes</a>
+                </div>
               </div>
             </div>
             <article data-markdown-motion class="content-rail md:col-span-9">

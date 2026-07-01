@@ -227,6 +227,41 @@ function SourceIcon({ type }: { type: AskKnowledgeItem['sourceType'] }) {
   return <FileText aria-hidden="true" className="h-4 w-4" strokeWidth={1.7} />;
 }
 
+const answerLinkPattern = /((?:https?:\/\/|www\.)[^\s<]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi;
+const trailingPunctuationPattern = /[.,!?;:]+$/;
+
+function linkHref(value: string) {
+  if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) return `mailto:${value}`;
+
+  const href = value.startsWith('www.') ? `https://${value}` : value;
+
+  try {
+    const url = new URL(href);
+    return ['http:', 'https:'].includes(url.protocol) ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
+function renderAnswerText(answer: string) {
+  return answer.split(answerLinkPattern).map((part, index) => {
+    const trailing = part.match(trailingPunctuationPattern)?.[0] ?? '';
+    const linkText = trailing ? part.slice(0, -trailing.length) : part;
+    const href = linkHref(linkText);
+
+    if (!href) return part;
+
+    return (
+      <span key={`${linkText}-${index}`}>
+        <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} className="break-words text-primary underline decoration-primary/35 underline-offset-4 transition-colors hover:text-[#E1E0CC]">
+          {linkText}
+        </a>
+        {trailing}
+      </span>
+    );
+  });
+}
+
 export default function AskExperience({ knowledge, suggestionGroups }: AskExperienceProps) {
   const [question, setQuestion] = useState('');
   const [result, setResult] = useState<AskResult | null>(null);
@@ -305,7 +340,7 @@ export default function AskExperience({ knowledge, suggestionGroups }: AskExperi
             ) : result ? (
               <motion.article key={result.question} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.45, ease }} className="mt-4 rounded-[8px] bg-[#171717] p-5 sm:p-6">
                 <p className="text-xs uppercase tracking-[0.22em] text-primary/70">Answer</p>
-                <p className="mt-4 max-w-3xl whitespace-pre-line text-base leading-relaxed text-[#DEDBC8] sm:text-lg">{result.answer}</p>
+                <p className="mt-4 max-w-3xl whitespace-pre-line break-words text-base leading-relaxed text-[#DEDBC8] sm:text-lg">{renderAnswerText(result.answer)}</p>
                 <div className="mt-6 flex flex-wrap items-center gap-2 text-xs text-gray-500">
                   <span>Confidence: {result.confidence}</span>
                   <span aria-hidden="true">/</span>
